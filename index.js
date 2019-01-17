@@ -4,7 +4,52 @@
 // Chrome dev tools
 // Gulp / frameworks / webpack experience
 // terminal experience
-// git experience. push, pull, merge, rebase, -i, squash techniques etc. Switching branches, commiting, stash, stage
+
+(/* GIT experience */) => {
+  /*
+
+  //Core
+    git init
+    git clone
+    git status
+    git branch
+    git branch feature
+    git checkout master
+    git checkout -b feature
+    
+  //Staging, Commiting, Pushing
+    git add .
+    git commit -m "initial commit"
+    git commit -am "initial commit"
+    git push
+
+  //Merging (development ->master)
+    git checkout master
+    git merge development
+
+  //Rebasing
+    git checkout development
+    git rebase master
+    git rebase -i HEAD~3
+    git rebase --abort
+    git rebase --continue
+
+  //Stashing
+    git stash
+    git stash pop
+    -git stash pop stash@{1}
+    git stash apply
+    git stash list
+    git stash -u
+    git stash -a
+    git stash drop
+    git stash drop tash@{1}
+
+    //.gitignore
+    //readme.md
+
+  */ 
+}
 
 
 // ___________________________________________________________________________________ JS
