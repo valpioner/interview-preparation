@@ -6,11 +6,20 @@ ts:
     5. Type guard.
     6. Difference == ===
     7. OOP principles
+        types of polymorphism:
+        https://www.quora.com/Object-Oriented-Programming-What-is-a-concise-definition-of-polymorphism
 
 rxjs:
     1. What is the difference between an observable and a promise?
-    2. What is the difference between switchMap, concatMap, mergeMap, exhaustMap?
-    3. Hot/cold observables
+    2. Hot/cold observables
+        answer:
+            a cold observable emits its values when it has an observer to consume them, i.e.
+            the sequence of values received by observers is independent of time of subscription.
+            All observers will consume the same sequence of values.
+
+            a hot observable emits value independently of its subscriptions,
+            i.e. the values received by observers are a function of the time of subscription.
+    3. What is the difference between switchMap, concatMap, mergeMap, exhaustMap?
     4. Subject/ReplaySubject/BehaviorSubject
     5. share operator, multicasting, publishReplay/refcount
 
