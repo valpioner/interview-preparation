@@ -58,7 +58,9 @@ add(2, 5); // 7
 add(2)(5); // 7
 
 
+
 [1, 3, 5, 8, 13, 21]; // find SUM of all array elements
+
 
 
 //How to clone obj? Will it be shell or deep copy?
@@ -122,12 +124,15 @@ add(2)(5); // 7
 }
 
 
+
 3 > 2 > 1
 1 == 1 == 1
 1 === 1 === 1
 
 
+
 'abc'.duplicate(3) // should return 'abcabcabc'
+
 
 
 console.log('abc', 5); // ?
@@ -148,16 +153,28 @@ console.log(0.1 + 0.2 == 0.3); // ?
 // for in vs for of
 // foreach vs .map
 // var vs let vs const
-// ...
+// ... destruct
 // () =>
 // static
 
 // closure
 // this
 // how prototypes work
+// {} == {}?
 // call vs apply vs bind
 // promice vs observable
 // mutable vs immutable
+
+
+
+var a = 1; 
+function b() { 
+    a = 10; 
+    return; 
+    function a() {} 
+} 
+b(); 
+console.log(a); // ?
 
 
 
@@ -176,6 +193,35 @@ var foo = "Hello";
   alert(foo + bar); // ?
 })();
 alert(foo + bar); // ?
+
+
+
+var xz = {
+  a: 1,
+  b: function() { console.warn(this.b) },
+  c: () => { console.warn(this.c) }
+}
+var bb = xz.b;
+var cc = xz.b;
+xz.b();
+xz.c();
+bb();
+cc();
+(/* solution */) => {
+  // ƒ () { console.warn(this.b) }
+  // undefined
+  // undefined
+  // undefined
+}
+
+
+
+var o = { price: 5 };
+var i = Object.create(o);
+console.log(i.p); // ?
+i.p = 8;
+delete i.p;
+console.log(i.p); // ?
 
 
 
@@ -199,7 +245,6 @@ function createBase(baseNumber) {
     return baseNumber + N;
   }
 }
-
 
 
 
@@ -231,12 +276,11 @@ myObject.func();
 
 
 // What is the order of logs?
-(function() {
-  console.log(1); 
-  setTimeout(function(){console.log(2)}, 1000); 
-  setTimeout(function(){console.log(3)}, 0); 
-  console.log(4);
-})();
+console.log(1); 
+setTimeout(function(){console.log(2)}, 1000); 
+setTimeout(function(){console.log(3)}, 0); 
+Promise.resolve().then(() => console.log(4))
+console.log(5);
 
 
 
@@ -272,10 +316,16 @@ myObject.func();
 // BEM
 // positioning elements
 // display: none; vs visibility: hidden;
+// div vs span
 // responsive
 // media
 // bootstrap
 // flex
+// div, p
+// div p
+// div > p
+// div + p
+// div ~ p
 
 
 
