@@ -20,13 +20,14 @@ rxjs:
             i.e. the values received by observers are a function of the time of subscription.
     3. What is the difference between switchMap, concatMap, mergeMap, exhaustMap?
     4. Subject/ReplaySubject/BehaviorSubject
-    5. share operator, multicasting, publishReplay/refcount
+    5. share operator, multicasting, publishReplay/refcount.
+    6. Subscription disposal in components.
 
 ng overall:
     1. Which lifecycle hooks do you know and what is their order of execution.
     2. Methods of communication between components.
     3. What is Change Detection.
-        When angular triggers CD process?
+        When angular triggers CD process? Zone.js?
         How we can affect that process: trigger manually for example?
         What is the difference between cdRef.markForCheck() and cdRef.detectChanges() and appRef.tick()?
         What ChangeDetectionStrategy.OnPush does?
@@ -34,6 +35,6 @@ ng overall:
     5. What is content projection / ng-content. To which component projected content belongs ? What is the role of “select” attribute ?
     6. Template-reference variable #someVar.
     7. Style encapsulation in angular/ ViewEncapsulation.
-    8. ng-container ng-template
+    8. ng-container ng-template ngTemplateOutlet
     9. Presentation/container components
     10. Single-store architecture (redux, ngrx)
