@@ -1,0 +1,26 @@
+ts:
+    1. What is the difference between an Interface and a Class?
+    2. Define a generic type StrMap<T> ({ [key: string]: T })
+    3. private, public modifiers in constructor / with them.
+    4. Union (“|”) and intersection types(“&”).
+    5. Type guard.
+    6. Difference == ===
+    7. OOP principles
+
+rxjs:
+    1. What is the difference between an observable and a promise?
+    2. What is the difference between switchMap, concatMap, mergeMap, exhaustMap?
+    3. Hot/cold observables
+    4. Subject/ReplaySubject/BehaviorSubject
+    5. share operator, multicasting, publishReplay/refcount
+
+ng overall:
+    1. Which lifecycle hooks do you know and what is their order of execution
+    2. Methods of communication between components
+    3. What is Change Detection. How we can affect that process: trigger manually for example ? What is the difference between cdRef.markForCheck() and cdRef.detectChanges() and appRef.tick()? What ChangeDetectionStrategy.OnPush does?
+    4. Difference between component / directive / structural directive
+    5. What is content projection / ng-content. To which component projected content belongs ? What is the role of “select” attribute ?
+    6. Style encapsulation in angular/ ViewEncapsulation.
+    7. ng-container ng-template
+    8. Presentation/container components
+    9. Single-store architecture (redux, ngrx)
