@@ -1,0 +1,40 @@
+ts:
+    1. What is the difference between an Interface and a Class ?
+    2. Define a generic type StrMap<T> ({[key: string]: T})
+    3. private, public modifiers in constructor / with them.
+    4. Union (“|”) and intersection types(“&”).
+    5. Type guard.
+    6. OOP principles
+        types of polymorphism:
+        https://www.quora.com/Object-Oriented-Programming-What-is-a-concise-definition-of-polymorphism
+
+rxjs:
+    1. What is the difference between an observable and a promise?
+    2. Hot/cold observables
+        answer:
+            a cold observable emits its values when it has an observer to consume them, i.e.
+            the sequence of values received by observers is independent of time of subscription.
+            All observers will consume the same sequence of values.
+
+            a hot observable emits value independently of its subscriptions,
+            i.e. the values received by observers are a function of the time of subscription.
+    3. What is the difference between switchMap, concatMap, mergeMap, exhaustMap?
+    4. Subject/ReplaySubject/BehaviorSubject
+    5. share operator, multicasting, publishReplay/refcount.
+    6. Subscription disposal in components.
+
+ng overall:
+    1. Which lifecycle hooks do you know and what is their order of execution.
+    2. Methods of communication between components.
+    3. What is Change Detection.
+        When angular triggers CD process? Zone.js?
+        How we can affect that process: trigger manually for example?
+        What is the difference between cdRef.markForCheck() and cdRef.detectChanges() and appRef.tick()?
+        What ChangeDetectionStrategy.OnPush does?
+    4. Difference between component / directive / structural directive
+    5. What is content projection / ng-content. To which component projected content belongs ? What is the role of “select” attribute ?
+    6. Template-reference variable #someVar.
+    7. Style encapsulation in angular/ ViewEncapsulation.
+    8. ng-container ng-template ngTemplateOutlet
+    9. Presentation/container components
+    10. Single-store architecture (redux, ngrx)
