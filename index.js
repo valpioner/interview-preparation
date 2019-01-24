@@ -1,3 +1,5 @@
+//Ctrl+K+0
+
 // ___________________________________________________________________________________ Basic 
 
 // How to debug
@@ -175,6 +177,9 @@ function b() {
 } 
 b(); 
 console.log(a); // ?
+(/* solution */) => {
+  // 1
+}
 
 
 
@@ -183,16 +188,24 @@ var a = 100;
   console.log(a); // ?
   var a = 200;
   console.log(a); // ?
-})()
+})();
+(/* solution */) => {
+  // undefined - because of hoisting
+  // 200
+}
 
 
 
 var foo = "Hello";
 (function() {
   var bar = " World";
-  alert(foo + bar); // ?
+  console.log(foo + bar); // ?
 })();
-alert(foo + bar); // ?
+console.log(foo + bar); // ?
+(/* solution */) => {
+  // Hello World
+  // error -> bar is not defined
+}
 
 
 
@@ -218,10 +231,14 @@ cc();
 
 var o = { price: 5 };
 var i = Object.create(o);
-console.log(i.p); // ?
-i.p = 8;
-delete i.p;
-console.log(i.p); // ?
+console.log(i.price); // ?
+i.price = 8;
+delete i.price;
+console.log(i.price); // ?
+(/* solution */) => {
+  // 5
+  // 5
+}
 
 
 
@@ -261,7 +278,6 @@ var myObject = {
   }
 };
 myObject.func();
-
 (/* solution */) => {
   /*
 
