@@ -168,7 +168,7 @@ console.log(0.1 + 0.2 == 0.3); // ?
 // mutable vs immutable
 
 
-
+//__________________________________________________________hos.ng
 var a = 1; 
 function b() { 
     a = 10; 
@@ -195,7 +195,7 @@ var a = 100;
 }
 
 
-
+//____________________________________________________________sco.e
 var foo = "Hello";
 (function() {
   var bar = " World";
@@ -208,7 +208,7 @@ console.log(foo + bar); // ?
 }
 
 
-
+//______________________________________________________________this
 var xz = {
   a: 1,
   b: function() { console.warn(this.b) },
@@ -229,6 +229,35 @@ cc();
 
 
 
+
+
+var myObject = {
+  foo: "bar",
+  func: function() {
+      var self = this;
+      console.log("outer func:  this.foo = " + this.foo);
+      console.log("outer func:  self.foo = " + self.foo);
+      (function() {
+          console.log("inner func:  this.foo = " + this.foo);
+          console.log("inner func:  self.foo = " + self.foo);
+      }());
+  }
+};
+myObject.func();
+(/* solution */) => {
+  /*
+  outer func:  this.foo = bar
+  outer func:  self.foo = bar
+  inner func:  this.foo = undefined
+  inner func:  self.foo = bar  
+  */
+}
+
+
+
+
+
+//_______________________________________________________________proto
 var o = { price: 5 };
 var i = Object.create(o);
 console.log(i.price); // ?
@@ -242,7 +271,7 @@ console.log(i.price); // ?
 
 
 
-// what output and why? lets check our closures
+//_________________________________________________________________
 for (let i = 0; i < 3; i++) {
   setTimeout(function() { console.warn(i); });
 }
@@ -264,39 +293,20 @@ function createBase(baseNumber) {
 }
 
 
-
-var myObject = {
-  foo: "bar",
-  func: function() {
-      var self = this;
-      console.log("outer func:  this.foo = " + this.foo);
-      console.log("outer func:  self.foo = " + self.foo);
-      (function() {
-          console.log("inner func:  this.foo = " + this.foo);
-          console.log("inner func:  self.foo = " + self.foo);
-      }());
-  }
-};
-myObject.func();
-(/* solution */) => {
-  /*
-
-  outer func:  this.foo = bar
-  outer func:  self.foo = bar
-  inner func:  this.foo = undefined
-  inner func:  self.foo = bar
-  
-  */
-}
-
-
-
+//_____________________________________________________________async
 // What is the order of logs?
 console.log(1); 
 setTimeout(function(){console.log(2)}, 1000); 
 setTimeout(function(){console.log(3)}, 0); 
 Promise.resolve().then(() => console.log(4))
 console.log(5);
+(/* result */) => {
+  // 1
+  // 5
+  // 4
+  // 3
+  // 2
+}
 
 
 
