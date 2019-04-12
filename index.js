@@ -67,46 +67,22 @@ add(2)(5); // 7
 
 //How to clone obj? Will it be shell or deep copy?
 (/* possible solutions */) => {
-  //  Solution 1: using Object.assign (shell)
-  var obj = {a: 1, b: 2}
-  var objclone = Object.assign({}, obj);
-  // Now the value of objclone is {a: 1 ,b: 2} but points to a different object than obj.
+  //  Solution 1: using Spread Operator ... (shell)
+  let arrClone = [...array];
+  let objClone = { ...obj };
+
+
+  //  Solution 2: using Object.assign (shell)
+  var obj = {a: 1, b: 2, c: { age: 30 }}
+  var objClone = Object.assign({}, obj);
+
+
+  // Solution 3: converting to JSON and back (be careful, source should be JSON safe)
+  var obj = {a:1, b:2, c:3};
+  var objClone = JSON.parse(JSON.stringify(source));
   
-  // Note the potential pitfall, though: Object.clone() will just do a shallow copy, not a deep copy. 
-  // This means that nested objects aren’t copied. They still refer to the same nested objects as the original:
-  
-  let obj = {
-      a: 1,
-      b: 2,
-      c: {
-          age: 30
-      }
-  };
-  
-  var objclone = Object.assign({},obj);
-  console.log('objclone: ', objclone);
-  
-  obj.c.age = 45;
-  console.log('After Change - obj: ', obj);           // 45 - This also changes
-  console.log('After Change - objclone: ', objclone); // 45
 
-
-
-
-  // Solution 2: converting to JSON and back (be careful, source should be JSON safe)
-  var source = {a:1, b:2, c:3};
-  var target = JSON.parse(JSON.stringify(source));
-  console.log(target); // {a:1, b:2, c:3}
-
-  // Check if clones it and not changing it
-  source.a = 'a';
-  console.log(source.a); // 'a'
-  console.log(target.a); // 1
-
-
-
-
-  // Solution 3: deep copy using iteration
+  // Solution 4: deep copy using iteration
   function iterationCopy(src) {
     let target = {};
     for (let prop in src) {
