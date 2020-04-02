@@ -13,6 +13,7 @@ Components
     $postLink() - when el linked with its children - for DOM manipulations.
 
 two-way data binding
+
 ::
 
 ng-transclude?
@@ -45,3 +46,5 @@ Karma / Jasmine
 how to add a filter
 
 what is interceptor
+
+*/
