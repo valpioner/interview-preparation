@@ -1,6 +1,12 @@
 (/* closure */) => {
-  // Closure is a locally declared variable related to a function which stays in memory when the function has returned.
-  // Closure is an inner function that has access to the variables in the outer (enclosing) function’s scope chain.
+  // http://www.jibbering.com/faq/notes/closures/
+  // https://medium.com/better-programming/a-basic-interview-question-can-you-explain-what-a-closure-is-710b75384d48
+
+  // WHait is closure?
+
+  // Closure is an expression (typically a function) that have access to variables in the outer (enclosing) function’s scope chain.
+  // It is formed when one of inner functions is made accessible outside of the outer function, so that it may be
+  // executed after the outer function has returned. Reference to such inner func creates new execution context.
 
   // Closure is the combination of a function bundled together (enclosed) with references to its surrounding state
   // (the lexical environment). In other words, a closure gives you access to an outer function’s scope from an inner
@@ -12,6 +18,29 @@
 
   // Closures used for encapsulation, to separate lexical scopes in loops
   // Closure has three scopes: local, outer f-tions, global
+  // Anonymous Functions and IIFE’s are NOT closures (but may contain closures)
+
+  function(){} //this is not a closure
+  function outer(str) { return function inner(){ return 'Hi, ' + str }} //this is not a closure, but contains a closure
+  var notAClosure = a => b => a + b; //this is not a closure, but contains a closure. Stateful funtion.
+  ;(() => {var a = 1; return {closureFunc: 2 + a}})() //this is not a closure, but contains a closure
+
+  // Where it is used?
+  // in modules with public API (privilaged methods), where implementation is hidden, and only interface exposed.
+  // in timers, module pattern
+  // when associating Functions with object instance methods (DOM elements with obj instances)
+  // in stateful functions, where return values may be changed by internal state: const secret = msg => () => msg;
+  // for Partial Applied function & curring (apply function to some of its arguments)
+    /*
+      const partialApply = (fn, ...fixedArgs) => {
+        return function (...remainingArgs) {
+          return fn.apply(this, fixedArgs.concat(remainingArgs));
+        };
+      };
+      const add = (a, b) => a + b;
+      const add10 = partialApply(add, 10);
+      add10(5);
+    */
 
   // Example:
   function outer() {
@@ -20,17 +49,43 @@
       console.log(name);
     };
   }
-  // Generate the closure
+  // Generate the closure (closure is formed and saved in closureFunc with new executions context)
   var closureFunc = outer();
   // Use the closure
   closureFunc();
-
-
-  // Example
-  // TODO check if correct
-  (function(x) {...})(x) //IIFE aka module pattern
 };
 
+/////////////////////////////////////////////////////////////////////////
+// what is scope? describe it.
+/*
+  Scope is a surrounding state. There is a global scope and local scope.
+  There are two local scopes in JS: function scope function(){const a = 1} and block scope {const a = 1}
+  Local/Global scope are not the same as Inner/Outer scope (it describe a scope relative to particular one).
+  Local Scope has access to its scope, chain of outer local scopes & a global scope.
+*/
+
+/////////////////////////////////////////////////////////////////////////
+// what is Module Pattern and why to use it?
+/*
+  Mudule Pattern is a Design Pattern which is used to wrap a set of variables and functions into single scope.
+    Purpose:
+      - create onw library
+      - encapsulate private internals into internal scope,
+      - expose public API,
+      - avoid name clashes with other modules/libs,
+      - avoid errors when composed with other libs (;)
+      - provide abstractions, maintainability, reusability,
+    Example:
+      - (function(){...})()
+      - var myLib = (function(){ return{a: 1 }})()
+        brackets around f are not mandatory in this case because it is inside expression =, but better still
+        to have it so it will be visible right away that it is not just a simple assignment operation
+    Details:
+      - IIFE used in this pattern to run function right away and save data somewhere only once (singleton)
+      - we need outer brackets () to make Functions Expression but not Function Declaration
+      - both approaches works (f)() = (f()). Syntatical difference only. Default useage is (f()).
+      - can return API object or create global API object
+*/
 
 ///////////////////////////////////////////////////////////////////////// hoisting & scope
 // what output and why?

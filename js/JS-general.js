@@ -5,10 +5,9 @@
 // Class vs function ?
 // pure function ?
 // reduce
-// ask array methods
-// ask obj methods
-// ask string methods
-
+// array methods
+// obj methods
+// string methods
 // ES6 features ?
 // for in vs for of
 // foreach vs .map
@@ -16,26 +15,24 @@
 // ... destruct
 // () =>
 // static
-
 // closure
 // this
 // how prototypes work
 // {} == {}?
 // call vs apply vs bind
-// promice vs observable
 // mutable vs immutable
-
 // pure functions - don't affect outer scope
 // First-class functions - can be passed as an argument, returned as values, assigned or stored in data structures
 // event bubbling - parent DOM element handler will also be called after children DOM element called
 // DOM
-
 // Threading in JS
 // Event Queue, call stack, task queue
 // async typical usage
 // REST API
 // HTTP / XHR
-// Callback hell vs promice?
+
+/////////////////////////////////////////////////////////////////////////
+// Describe basic components of JS engine
 
 // Module/IIFE (f(){some code})()
 
@@ -165,11 +162,6 @@ Errors that would normally be ignored would generate errors, or throw exceptions
   // copy array -
 };
 
-(/* async js */) => {
-  // setTimeout(f, delay), setInterval(f, delay), clearInterval(id) - timers are operated in single thread.
-  // DOM events
-};
-
 /////////////////////////////////////////////////////////////////////////
 // write func that checks if input string is palindrome
 function isPalindrome(str) {
@@ -202,7 +194,7 @@ add(2)(5); // 7 // closure
 const add = (a, b) => (b ? a + b : b => a + b);
 
 /////////////////////////////////////////////////////////////////////////
-// create func that will give such result
+// create func that will give such result (relates to Partial Applied function)
 var addSix = createBase(6);
 addSix(10); // returns 16 // closure
 addSix(21); // returns 27 // closure
