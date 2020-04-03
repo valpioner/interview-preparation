@@ -9,12 +9,11 @@ When we look for a property that object doesn't have, it traverse all proto chai
 
 /////////////////////////////////////////////////////////////////////////
 // what output and why?
-var item1 = { price: 5 };
-var item2 = Object.create(item1);
-console.log(item2.price); // 5
-item2.price = 8;
-delete item2.price;
-console.log(item2.price); // 5 - because it is still in proto
+var product = { category: 'fastfood' };
+var burger = Object.create(product);
+burger.category = 'drinks';
+delete burger.category;
+console.log(burger.category); // 5 - because it is still in proto
 
 /////////////////////////////////////////////////////////////////////////
 // describe different ways of creating an objects

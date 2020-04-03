@@ -87,6 +87,12 @@
       - can return API object or create global API object
 */
 
+///////////////////////////////////////////////////////////////////////// scope
+// what output and why?
+var y = 1;
+if (function F(){}) { y += typeof F }
+console.log(y); // 1function
+
 ///////////////////////////////////////////////////////////////////////// hoisting & scope
 // what output and why?
 (function () {
