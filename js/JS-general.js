@@ -34,6 +34,54 @@
 // Describe basic components of JS engine
 // Module/IIFE (f(){some code})()
 
+{ // Two main programming paradigms in JavaScript, its difference
+/*
+  - OOP (SOLID, classes, prototypal inheritance)
+    OOP pros: easy to understand, use imperative over declarative style, reads more straight-forward
+    OOP cons: depends on shared state, may lead to race condition
+
+  - Functional programming (first class funtions, closures, )
+    FP pros: no shared state or side-effects leads to no bugs related to race conditions, easy to recompose functions
+    for more reusable code. Things don't compete for shared resources. Object composition over class inheritance.
+    FP cons: code may lock less concrete, more abstractly specified, may be comfusing for those who come from OOP
+*/
+}
+
+{ // What is functional programming?
+  /*
+    It is a paradigm to provide programs by composing functions and avoid shared atate & mutable data.
+    It is one of two essential concepts in JavaScript (OOP as another one).
+    Features: pure functions, no side effects, function composition, first-class func, HOF, func as arguments/values, Immutability
+    Other functional langs: Lisp, Haskell, Erlang, Closure, F Sharp.
+  */
+}
+
+{ // Classical vs prototypal inheritance?
+  /*
+    Class Inheritance: instances inherit from classes, and create tight coupling, hierarchical relationships.
+    Instances are typically instantiated via constructor functions with the `new` keyword.
+    Class inheritance may or may not use the `class` keyword from ES6.
+
+    Prototypal Inheritance: instances inherit directly from other objects. Instances are typically instantiated via
+    factory functions or `Object.create()`. Instances may be composed from many different objects, allowing for easy
+    selective inheritance. Concatenative inheritance, prototype delegation, functional inheritance, object composition. Delegation (prototype chain), Concatenative (mixins, Object.assign()), Functional (create closure for private state/encapsulation)
+  */
+}
+
+{ // Describe what means 'object composition over class inheritance'
+  /*
+    https://www.youtube.com/watch?v=wfMtDGfHWpA&feature=emb_title
+
+    It means that code reuse should be achieved by assembling smaller units of functionality into new objects instead
+    of inheriting from classes and creating object taxonomies. In other words, use can-do, has-a, or uses-a
+    relationships instead of is-a relationships.
+
+    Avoid class hierarchies, avoid brittle base class problem (changes in a base class may lead to problem in child
+    classes), avoid tight coupling, avoid forced is-a relationship, avoid gorilla-banana problem (get entire jungle 
+    but not simple banana), makes code more flexible
+  */
+}
+
 { // ES6+ features https://github.com/lukehoban/es6features
   /*
     ES6 (2015):
@@ -178,7 +226,31 @@
   0.1 + 0.2 == 0.3; // false (could be true, floating value issue)
 }
 
+{ // Two-way data binding over One-way data flow
+  /*
+    Two-way:
+    UI field & data model are bound together and may change one-another. Problem: may cause side-effects that are harder to follow and understand where changes come from/
 
+    One-way:
+    Model is a single source of truth. UI changes trigger msg, upon which you may consider change model. Data always flows in one direction.
+  */
+}
+
+{ //Monolithic vs Microservice architecture?
+  /*
+    Monolithic:
+    App written as one unit of code, whose components designed to work together, sharing same memory and resources.
+    Pros: cover large number of cross-cutting concerns, shared memory process are faster then inter-process communication (IPC)
+    Cons: tightly coupled, difficult to isolate services (scalability, maintainability problem), harder to understand due to deps, side-effects
+
+    Microservice:
+    App consists of several smaller independent apps that run in thei own memory and space and scale independantly from
+    each other across potentially many separate machines
+    Pros: better organized, separation of concern, easy to recompose, reconfigure, scale only what you need. Perform
+    and scale better in long run.
+    Cons: shared middleware, more devOps job needed, higher initial cost
+  */
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////     WHAT OUTPUT & WHY ?     //////////////////////////
@@ -405,3 +477,55 @@ console.log('array 2: length=' + arr2.length + ' last=' + arr2.slice(-1)); // "a
 
   // copy array -
 };
+
+{ // pull data from public API and show it on FE
+  // TODO
+};
+
+{ // FizzBuzz problem. Print from 1 to 100. If number %3 print 'Fizz', if %5 print 'Buzz', if both - print 'FizzBuzz'
+
+  // solution #1
+  for (var i=1; i <= 20; i++) {
+    if (i % 15 == 0) console.log("FizzBuzz");
+    else if (i % 3 == 0) console.log("Fizz");
+    else if (i % 5 == 0) console.log("Buzz");
+    else console.log(i);
+
+    // solution #2
+    var n = '';
+    if (i % 3 == 0) n += 'Fizz';
+    if (i % 5 == 0) n += 'Buzz';
+    console.log(n || i);
+
+    // solution #3
+    var m3 = i % 3 == 0, m5 = i % 5 == 0;
+    console.log(f ? b ? "FizzBuzz" : "Fizz" : b ? "Buzz" : i);
+
+    // solution #n
+    var out = '';
+    !(i%3) && (out = 'fizz');
+    !(i%5) && (out += 'buzz');
+    console.log(out || i);
+  }
+
+  // solution #4 - shortest
+  for(i=0;i<100;)console.log((++i%3?'':'Fizz')+(i%5?'':'Buzz')||i)
+
+  // solution #5 - recursion
+  var check = function (number) {
+    var fizz = number % 3 == 0, buzz = number % 5 == 0;
+    console.log(fizz ? buzz ? "FizzBuzz" : "Fizz" : buzz ? "Buzz" : number);
+    if (number != 0) { return check(number - 1);} // recursion
+  }
+  check(100);
+
+  // solution #6
+  [...Array(100).keys()].map(i => {
+    i++;
+    console.log(
+      (i % 15 == 0 && "FizzBuzz") ||
+      (i % 3 == 0 && "Fizz") ||
+      (i % 5 == 0 && "Buzz") || i)
+    });
+
+}

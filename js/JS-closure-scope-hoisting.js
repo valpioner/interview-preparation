@@ -1,33 +1,56 @@
-(/* closure */) => {
-  // http://www.jibbering.com/faq/notes/closures/
-  // https://medium.com/better-programming/a-basic-interview-question-can-you-explain-what-a-closure-is-710b75384d48
+{ // What is closure, how it works, where it is used?
 
-  // WHait is closure?
+  /*
+    https://javascript.info/closure
+    http://www.jibbering.com/faq/notes/closures/
+    https://medium.com/better-programming/a-basic-interview-question-can-you-explain-what-a-closure-is-710b75384d48
+    https://tc39.es/ecma262/#sec-lexical-environments - EcmaScript Lexical Environmenr details
 
-  // Closure is an expression (typically a function) that have access to variables in the outer (enclosing) function’s scope chain.
-  // It is formed when one of inner functions is made accessible outside of the outer function, so that it may be
-  // executed after the outer function has returned. Reference to such inner func creates new execution context.
+    A closure is a function bundled with its lexical scope. Each func has hidden [[Environment]] object. It has
+    - Environment Record obj with local variables as props and other info like the value of 'this'
+    - reference to outer lexical environment
+    A Lexical Environment object dies when it becomes unreachable (just like any other object).
+    In other words, it exists only while there’s at least one nested function referencing it.
 
-  // Closure is the combination of a function bundled together (enclosed) with references to its surrounding state
-  // (the lexical environment). In other words, a closure gives you access to an outer function’s scope from an inner
-  // function. In JavaScript, closures are created every time a function is created, at function creation time. // MDN
+    // script for testing in chrome, see closures in a dev tools
+    var g_val = 1;
+    var a = (a_val) => {
+      debugger; return b = (b_val) => {
+        debugger; return c = (c_val) => {
+          debugger; return a_val+c_val;
+        }
+      }
+    };
 
-  // A closure is a function, along with all variables or functions that were in-scope at the time that the closure was
-  // created. In JavaScript, a closure is implemented as an “inner function”; i.e., a function defined within the body
-  // of another function. // TopTal
+    const f = () => {
+      let value = 123;
+      return () => {alert(value);}
+    }
+    let g = f(); // while g function exists, the value stays in memory
+    g = null; // ...and now the memory is cleaned up
 
-  // Closures used for encapsulation, to separate lexical scopes in loops
-  // Closure has three scopes: local, outer f-tions, global
-  // Anonymous Functions and IIFE’s are NOT closures (but may contain closures)
+    // Closure is an expression (typically a function) that have access to variables in the outer (enclosing) function’s scope chain.
+    // It is formed when one of inner functions is made accessible outside of the outer function, so that it may be
+    // executed after the outer function has returned. Reference to such inner func creates new execution context.
 
-  function(){} //this is not a closure
-  function outer(str) { return function inner(){ return 'Hi, ' + str }} //this is not a closure, but contains a closure
-  var notAClosure = a => b => a + b; //this is not a closure, but contains a closure. Stateful funtion.
-  ;(() => {var a = 1; return {closureFunc: 2 + a}})() //this is not a closure, but contains a closure
+    // Closure is the combination of a function bundled together (enclosed) with references to its surrounding state
+    // (the lexical environment). In other words, a closure gives you access to an outer function’s scope from an inner
+    // function. In JavaScript, closures are created every time a function is created, at function creation time. // MDN
+
+    // A closure is a function, along with all variables or functions that were in-scope at the time that the closure was
+    // created. In JavaScript, a closure is implemented as an “inner function”; i.e., a function defined within the body
+    // of another function. // TopTal
+
+    // Closures used for encapsulation, to separate lexical scopes in loops, timers, DOM event listeners
+    // Closure has three scopes: local, outer f-tions, global
+    // Anonymous Functions and IIFE’s are NOT closures (but may contain closures)
 
   // Where it is used?
+  // loops
+  // callbacks
+  // higher order functions
   // in modules with public API (privilaged methods), where implementation is hidden, and only interface exposed.
-  // in timers, module pattern
+  // in timers
   // when associating Functions with object instance methods (DOM elements with obj instances)
   // in stateful functions, where return values may be changed by internal state: const secret = msg => () => msg;
   // for Partial Applied function & curring (apply function to some of its arguments)
@@ -43,16 +66,10 @@
     */
 
   // Example:
-  function outer() {
-    var name = 'Ben'; // this var is enclosed by inner f-tion that is been returned after outer f-tion called.
-    return function inner() {
-      console.log(name);
-    };
-  }
-  // Generate the closure (closure is formed and saved in closureFunc with new executions context)
-  var closureFunc = outer();
-  // Use the closure
-  closureFunc();
+  function(){} // this is not a closure
+  function outer(str) { return function inner(){ return 'Hi, ' + str }} //this is not a closure, but contains a closure
+  var notAClosure = a => b => a + b; // this is not a closure, but contains a closure. Stateful funtion.
+  ;(() => {var a = 1; return {closureFunc: 2 + a}})() //this is not a closure, but contains a closure
 };
 
 /////////////////////////////////////////////////////////////////////////
