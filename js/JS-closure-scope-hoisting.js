@@ -5,6 +5,7 @@
     http://www.jibbering.com/faq/notes/closures/
     https://medium.com/better-programming/a-basic-interview-question-can-you-explain-what-a-closure-is-710b75384d48
     https://tc39.es/ecma262/#sec-lexical-environments - EcmaScript Lexical Environmenr details
+    https://www.idontknowjavascript.com/2019/05/closure-in-javascript.html - explanation & questions
 
     A closure is a function bundled with its lexical scope. Each func has hidden [[Environment]] object. It has
     - Environment Record obj with local variables as props and other info like the value of 'this'

@@ -1,6 +1,19 @@
-/*
+}
 
-ng overall:
+{ // @angular/cli terminal commands
+
+  /*
+    npm i -g @angular/cli
+
+    ng new --skip-install project-name --style=(scss || sass || less)
+    ng set defaults.styleExt scss // convert current spp to scss
+
+    ng g (c || s || m) [path]/[file-name] --skipTests --flat
+  */
+}
+
+{ // general questions
+  /*
     1. Which lifecycle hooks do you know and what is their order of execution.
     2. Methods of communication between components.
     3. What is Change Detection.
@@ -16,5 +29,74 @@ ng overall:
     9. Presentation/container components
     10. Single-store architecture (redux, ngrx)
 
+    LocalService (separate service instance) - describe
+    The Master Detail Design Pattern With Cached Master Table - describe
+    How whould you implement Error Handling f-ty
+  */
 
-*/
+
+}
+
+{ // How Components communicate
+  /*
+    - Input [] / Output ()
+    - Statefull Services (Injection)
+    - #, @ViewChild, @ContentChild
+    - Projection (<ng-content>...</ng-content>)
+  */
+}
+
+{ // Component Lifecycle hooks:
+
+    ngOnChanges 						// Called as first hook and after a bound input propery changes
+
+    // constructor
+
+    ngOnInit 								// Called once the component is initialized
+                            // Cant access ViewChild # elements
+
+    ngDoCheck 							// Called during every change detection run
+
+    ngAfterContentInit 			// Called after projected content (ng-content) initialized
+
+    ngAfterContentChecked 	// Called every time projected content has been checked
+
+    ngAfterViewInit					// Called after component's view (& child views) has been initialized
+                            // Can access ViewChild # elements
+
+    ngAfterViewChecked			// Called every time the view (and child views) has been checked
+
+    ngOnDestroy							// Called once component is about to destroy
+}
+
+
+{ // describe ChangeDetectionStrategy
+
+  // ChangeDetectionStrategy.OnPush - component only been rerendered if Inputs inside were changed
+
+}
+
+{ // why to separate into containers (smart) and view (dumb) components
+  /*
+    - containers supply a data flow for presentation
+    - containers reacts to events and call Actions (redux/ngrx)
+
+    Better testability
+  */
+}
+
+{ // How to fix event/props drill in a component tree?
+
+  // use deeply nested smart components. Use '| async' pipe so that component will rerender if OnPush strategy.
+
+}
+
+{ // What are directives? @Directive
+
+  /*
+    Directives are instructions in the DOM.
+    - structural directives (change DOM) *ngIf, *ngFor, *ngIf
+    - attribute (change element)
+  */
+
+}
