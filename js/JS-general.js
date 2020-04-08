@@ -475,7 +475,13 @@ console.log('array 2: length=' + arr2.length + ' last=' + arr2.slice(-1)); // "a
     console.log(target.a); // 1
   };
 
-  // copy array -
+  // shallow copy array
+  var newArr = arr.slice();
+  var newArr = [...arr];
+  var newArr = Array.from(arr);
+
+  // deep copy array
+  var newArr = JSON.parse(JSON.stringify(arr));
 };
 
 { // pull data from public API and show it on FE

@@ -17,7 +17,7 @@ ts:
   // What is TypeScript (and what features it gives)
   /*
 		It is a superset to JavaScript, which offers additional features that help developers to find bugs easily. It is compiled to JS
-		
+
 		Features:
 			Types
 			Classes

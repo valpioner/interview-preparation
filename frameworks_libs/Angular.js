@@ -40,7 +40,8 @@
 { // How Components communicate
   /*
     - Input [] / Output ()
-    - Statefull Services (Injection)
+    - Statefull Services (Injection) (with EventEmmiters .emit .subscribe) - old approach
+    - Statefull Services (Injection) (with Subjects .next .subscribe) - recommended approach
     - #, @ViewChild, @ContentChild
     - Projection (<ng-content>...</ng-content>)
   */
@@ -67,6 +68,18 @@
     ngAfterViewChecked			// Called every time the view (and child views) has been checked
 
     ngOnDestroy							// Called once component is about to destroy
+}
+
+{ // DI, hierarchical service Injector
+  /*
+    Services can be provided in:
+    - AppModule (available everywhere)
+      providers: [MyService] // in @NgModule decorator
+    - AppComponent (available in all components, but not for other services)
+      providers: [MyService] // in @Component decorator
+    - specific Component (available inside component and its child components)
+      providers: [MyService] // in @Component decorator
+  */
 }
 
 
