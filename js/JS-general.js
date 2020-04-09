@@ -1,4 +1,4 @@
-//Ctrl+K+0 - unfold
+.//Ctrl+K+0 - unfold
 
 /////////////////////////////////////////////////////////////////////////
 ///////////////////     GENERAL QUESTIONS     ///////////////////////////
@@ -147,7 +147,7 @@
     Array.sort now retains order if keys are equal
     Make JavaScript a superset of JSON
   */
-}}
+}
 
 { // 'use strict'
   /*
@@ -326,6 +326,18 @@ arr2.push(arr3);
 console.log('array 1: length=' + arr1.length + ' last=' + arr1.slice(-1)); // "array 1: length=5 last=j,o,n,e,s"
 console.log('array 2: length=' + arr2.length + ' last=' + arr2.slice(-1)); // "array 2: length=5 last=j,o,n,e,s"
 
+
+
+/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?  RECURSION
+// how to fix?
+let counter = 0;
+(function doJob() {
+  if (counter > 3) return 'done!';
+  counter++;
+  doJob(); // fix: return doJob()
+}())
+// undefined, because only last function in a stack returned value, rest just finished
+// bubble up returned value, return recurcive call but not just call
 
 
 /////////////////////////////////////////////////////////////////////////
