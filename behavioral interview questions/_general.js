@@ -1,6 +1,4 @@
-.// Course section:
-// https://www.udemy.com/course/master-the-coding-interview-data-structures-algorithms/learn/lecture/12246392#overview
-
+.
 // MindMap
 // https://coggle.it/diagram/W5u8QkZs6r4sZM3J/t/master-the-interview
 
