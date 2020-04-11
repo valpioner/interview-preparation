@@ -1,7 +1,7 @@
 .//Ctrl+K+0 - unfold
 
 
-/* Interview questions links:
+{/* Interview questions links:
 
   awesome-interview-questions:
   https://github.com/MaximAbramchuck/awesome-interview-questions
@@ -17,41 +17,47 @@
 
   JS: Basics and Tricky Questions:
   http://www.thatjsdude.com/interview/js2.html
+
 */
+}
 
-/////////////////////////////////////////////////////////////////////////
-///////////////////     GENERAL QUESTIONS     ///////////////////////////
-/////////////////////////////////////////////////////////////////////////
+{ /* GENERAL QUESTIONS
 
-// IIFE
-// Hoisting
-// Class vs function ?
-// pure function ?
-// reduce
-// array methods
-// obj methods
-// string methods
-// ES6 features ?
-// for in vs for of
-// foreach vs .map
-// static
-// closure
-// this
-// how prototypes work
-// {} == {}?
-// call vs apply vs bind
-// mutable vs immutable
-// pure functions - don't affect outer scope
-// First-class functions - can be passed as an argument, returned as values, assigned or stored in data structures
-// event bubbling / event capturing (trickling)
-// DOM
-// Threading in JS
-// Event Queue, call stack, task queue
-// async typical usage
-// REST API
-// HTTP / XHR
-// Describe basic components of JS engine
-// Module/IIFE (f(){some code})()
+  general:
+    - event bubbling / event capturing (trickling)
+    - mutable vs immutable
+
+  js core:
+    - data types
+    - scope / lexical environment
+    - closure
+    - hoisting
+    - prototypes
+    - this
+        - new O()
+        - call, apply, bind
+        - obj.func()
+        - func()
+        - () =>
+    - async
+        - single threaded
+        - JS Engine / JS execution context
+        - heal, call stack
+        - web api (timers, XHR, DOM etc.)
+        - event loop, callback queue
+        - promice, microtasks
+
+  function, class
+    - class vs function
+    - pure function
+    - first-class functions
+    - IIFE / module pattern
+    - static
+
+    DOM manipulations
+
+  */
+}
 
 { // Two main programming paradigms in JavaScript, its difference
 /*
@@ -245,16 +251,6 @@
   0.1 + 0.2 == 0.3; // false (could be true, floating value issue)
 }
 
-{ // Two-way data binding over One-way data flow
-  /*
-    Two-way:
-    UI field & data model are bound together and may change one-another. Problem: may cause side-effects that are harder to follow and understand where changes come from/
-
-    One-way:
-    Model is a single source of truth. UI changes trigger msg, upon which you may consider change model. Data always flows in one direction.
-  */
-}
-
 { //Monolithic vs Microservice architecture?
   /*
     Monolithic:
@@ -271,9 +267,7 @@
   */
 }
 
-///////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////     WHAT OUTPUT & WHY ?     //////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////
+{ // WHAT OUTPUT & WHY ?
 
 /////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 // NFE (Named Function Expression)
@@ -358,10 +352,10 @@ let counter = 0;
 // undefined, because only last function in a stack returned value, rest just finished
 // bubble up returned value, return recurcive call but not just call
 
+}
 
-/////////////////////////////////////////////////////////////////////////
-//////////////////////     COMMON TASKS     /////////////////////////////
-/////////////////////////////////////////////////////////////////////////
+
+{ // COMMON TASKS
 
 { // reverse string
   '0123456789'.split('').reverse().join('');
@@ -518,51 +512,5 @@ let counter = 0;
 { // pull data from public API and show it on FE
   // TODO
 };
-
-{ // FizzBuzz problem. Print from 1 to 100. If number %3 print 'Fizz', if %5 print 'Buzz', if both - print 'FizzBuzz'
-
-  // solution #1
-  for (var i=1; i <= 20; i++) {
-    if (i % 15 == 0) console.log("FizzBuzz");
-    else if (i % 3 == 0) console.log("Fizz");
-    else if (i % 5 == 0) console.log("Buzz");
-    else console.log(i);
-
-    // solution #2
-    var n = '';
-    if (i % 3 == 0) n += 'Fizz';
-    if (i % 5 == 0) n += 'Buzz';
-    console.log(n || i);
-
-    // solution #3
-    var m3 = i % 3 == 0, m5 = i % 5 == 0;
-    console.log(f ? b ? "FizzBuzz" : "Fizz" : b ? "Buzz" : i);
-
-    // solution #n
-    var out = '';
-    !(i%3) && (out = 'fizz');
-    !(i%5) && (out += 'buzz');
-    console.log(out || i);
-  }
-
-  // solution #4 - shortest
-  for(i=0;i<100;)console.log((++i%3?'':'Fizz')+(i%5?'':'Buzz')||i)
-
-  // solution #5 - recursion
-  var check = function (number) {
-    var fizz = number % 3 == 0, buzz = number % 5 == 0;
-    console.log(fizz ? buzz ? "FizzBuzz" : "Fizz" : buzz ? "Buzz" : number);
-    if (number != 0) { return check(number - 1);} // recursion
-  }
-  check(100);
-
-  // solution #6
-  [...Array(100).keys()].map(i => {
-    i++;
-    console.log(
-      (i % 15 == 0 && "FizzBuzz") ||
-      (i % 3 == 0 && "Fizz") ||
-      (i % 5 == 0 && "Buzz") || i)
-    });
 
 }

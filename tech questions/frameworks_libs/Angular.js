@@ -113,3 +113,15 @@
   */
 
 }
+
+
+
+{ // Two-way data binding over One-way data flow
+  /*
+    Two-way:
+    UI field & data model are bound together and may change one-another. Problem: may cause side-effects that are harder to follow and understand where changes come from/
+
+    One-way:
+    Model is a single source of truth. UI changes trigger msg, upon which you may consider change model. Data always flows in one direction.
+  */
+}

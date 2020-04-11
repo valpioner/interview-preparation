@@ -11,9 +11,9 @@
   Bad
     O(n log n)  - log linear (usually sorting operations)
   Horrible
-    O(n^2)      - quadratic (2 nested loops, comparing with each element in array)
-    O(2^n)      - exponential (recursive algorithms that solves a problem of size N)
-    O(n!)       - factorial (nested loop for every element)
+    O(n^2) 🐌     - quadratic (2 nested loops, comparing with each element in array)
+    O(2^n) 🐌🐌     - exponential (recursive algorithms that solves a problem of size N)
+    O(n!)  🐌🐌🐌     - factorial (nested loop for every element)
 */
 
 /* Rules - how to calculate f() complexity
