@@ -1,5 +1,24 @@
 .//Ctrl+K+0 - unfold
 
+
+/* Interview questions links:
+
+  awesome-interview-questions:
+  https://github.com/MaximAbramchuck/awesome-interview-questions
+
+  Front-end-Developer-Interview-Questions:
+  https://github.com/h5bp/Front-end-Developer-Interview-Questions
+
+  21 Essential JavaScript Interview Questions:
+  https://www.codementor.io/@nihantanu/21-essential-javascript-tech-interview-practice-questions-answers-du107p62z
+
+  37 Essential JavaScript Interview Questions (TopTal)
+  https://www.toptal.com/javascript/interview-questions
+
+  JS: Basics and Tricky Questions:
+  http://www.thatjsdude.com/interview/js2.html
+*/
+
 /////////////////////////////////////////////////////////////////////////
 ///////////////////     GENERAL QUESTIONS     ///////////////////////////
 /////////////////////////////////////////////////////////////////////////

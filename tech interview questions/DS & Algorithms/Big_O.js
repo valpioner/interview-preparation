@@ -5,7 +5,7 @@
 
   Excellent
     O(1)        - constant (no loops, assignment)
-    O(log n)    - logarithmic (usually searching algorithms have log n if they are sorted (Binary Tree Search))
+    O(log n)    - logarithmic (usually searching algorithms have log n if they are sorted (Binary Tree Search)) Divide & Conquer
   Fair
     O(n)        - linear (single loop of n items)
   Bad
