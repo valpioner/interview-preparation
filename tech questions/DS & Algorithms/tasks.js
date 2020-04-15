@@ -231,10 +231,6 @@
 
 }
 
-{ // 189. Rotate Array: Given an array, rotate the array to the right by k steps, where k is non-negative.
-  const rotate = (arr, k) => arr.unshift(...arr.splice(-k))
-}
-
 { // Given a number N return the index value of the Fibonacci sequence
 
   function fibonacciIterative(n) { // O(n) - linear

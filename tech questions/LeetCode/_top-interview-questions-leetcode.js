@@ -50,8 +50,11 @@
     🟢 38. Count and Say
     https://leetcode.com/problems/count-and-say/
 
-    h 42. Trapping Rain Water 🤑
+    🔴 42. Trapping Rain Water 🤑
     https://leetcode.com/problems/trapping-rain-water/
+
+    🟡 46. Permutations
+    https://leetcode.com/problems/permutations/
 
     🟢 53. Maximum Subarray
     https://leetcode.com/problems/maximum-subarray/
