@@ -1,2 +1,4 @@
-fold all: Ctrl + K + 0
-unfold all: Ctrl + K + J
+# Readme.md
+
+- fold all: `Ctrl + K + 0`
+- unfold all: `Ctrl + K + J`
