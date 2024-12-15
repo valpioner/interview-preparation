@@ -15,15 +15,13 @@
 - `git init`
 - `git clone`
 - `git status`
-- `git branch`
-- `git branch feature`
-- `git checkout <branch_name>`
-- `git checkout -`
-- `git checkout -b <branch_name>`
-- `git switch` (= `git checkout`)
-- `git switch -c` (= `git checkout -b`)
 
 ## Branching
+
+### List branches
+
+- `git branch` list local branches
+- `git branch -a` list local and origin branches
 
 ### Switch to other branch
 
@@ -78,6 +76,18 @@
 - `git commit --amend -m 'New commit msg'` Change msg of last commit
 - `git add . && git commit --amend -m 'New commit msg'` Add missing changes to last commit
 
+## Log commits
+
+While in log view, press `q` to quit.
+
+- `git log -3` log last 3 commits
+- `git log --oneline`
+- `git log --branches=*`
+- `git log origin..` log only new local commits FROM..
+- `git log origin..HEAD` log only new local commits FROM..TO
+- `git log HEAD ^origin` log only new local commits
+- `git log --no-merges` skip merge commits
+
 ## Push
 
 - `git push`
@@ -116,6 +126,35 @@
 - `git stash drop`
 - `git stash drop stash@{1}`
 
+## Tagging
+
+### Tag types
+
+- `lightweight` - it’s just a pointer to a specific commit
+- `annotated` - full objects inside GIT DB, may have messages
+
+### Tag logging
+
+- `git tag` list all tags
+- `git tag -l "v1.8.5*"` list all inside specific tag
+- `git show v1.4` log tag
+
+### Tag creation
+
+- `git tag v1.4` create lightweight tag
+- `git tag -a v1.4 -m 'my version 1.4'` create annotated tag
+- `git tag -a v1.2 9fceb02` tag commit
+
+### Tag pushing
+
+- `git push origin v1.5` push local tag to origin
+- `git push origin --tags` push all local tags to origin which are not yet there
+
+### Tag deletion
+
+- `git tag -d v1.4-lw` delete local tag
+- `git push origin --delete v1.4-lw` delete tag from origin
+
 ## How do I undo things in Git?
 
 https://www.atlassian.com/git/tutorials/undoing-changes
@@ -131,9 +170,3 @@ https://www.atlassian.com/git/tutorials/undoing-changes
 ## Reset working HEAD to specific commit. All commits after this commit will be removed from history (prefer using on local/private branch)
 
 - `git reset --hard <commit_ID>` (use `--keep` instead of `--hard` to keep local changes)
-
-
-
-git log
-git log --oneline
-git log --branches=*
