@@ -1,4 +1,3 @@
-# Readme.md
+# About
 
-- fold all: `Ctrl + K + 0`
-- unfold all: `Ctrl + K + J`
+Here I store crucial info to prepare to the interview for both, a candidate and interviewer.
