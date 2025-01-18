@@ -122,9 +122,17 @@ function Component({ children }) {
 
 
       {/* render list */}
-      {[...].map((item, index) => (
+      {[1,2,3].map((item, index) => (
         <HeaderItem key={item.id} {...item} />
         <HeaderItem key={index} {...item} />
+      ))}
+
+      {/* render 2d list matrix */}
+      {[[1,2,3][1,2,3][1,2,3]].map((row, rowIndex) => (
+        <li key={rowIndex}>
+        <ol>
+          {row.map((col, colIndex) => <li key={colIndex}>{col}</li>)}
+        </ol>
       ))}
 
       {/* render icon */}
@@ -169,8 +177,27 @@ export default function Tab({ ...props }) {
 ```tsx
 // State
 
-  // when changed - component func is re-executed !!!!!
-  const [count, setCount] = useState<number>(0);
+// when changed - component func is re-executed !!!!!
+// calling `setCount()` will schedule an update, so it won't be instant
+const [count, setCount] = useState<number>(0);
+const [arr, setArr] = useState<number>([...]);
+
+// WRONG - don't use this approach when new state depends on old state
+setCount(!count);
+
+// CORRECT - pass function instead, it will always get correct state value
+setCount((count) => !count); // best practice
+
+// WRONG
+setArr((obj) => arr[0] = 'new value')
+
+// CORRECT
+setArr((obj) => {
+  const newArray = [...arr]; // 1d array
+  // const newArray = [...arr.map(innerArray => [...innerArray])]; // 2d array
+  newArray[0] = 'new value';
+  return newArray;
+})
 ```
 
 ## React Patterns
@@ -204,5 +231,56 @@ export default function Tabs({tabsContainer}) {
 // or
 export default function Tabs({TabsContainer}) {
   return (<TabsContainer> text </TabsContainer>);
+}
+```
+
+### Two-way binding
+
+```tsx
+const [name, setName] = useState('Initial Name');
+
+return (
+  <input value={name} onChange={e => setName(e.target.value)} />
+);
+```
+
+### Lifting state up
+
+In case when one of children affects a sibling - state should be managed by the common parent.
+
+```tsx
+// common parent
+function Accordion({ title, children, isActive }) {
+  const [activeIndex, setActiveIndex] = useState(0); // manage state in parent
+
+  return (
+    <>
+      <Panel
+        isActive={activeIndex === 0} // pass state from parent
+        onShow={() => setActiveIndex(0)} // handle event
+      >
+        ...
+      </Panel>
+      <Panel
+        isActive={activeIndex === 1} // pass state from parent
+        onShow={() => setActiveIndex(1)} // handle event
+      >
+        ...
+      </Panel>
+    </>
+  );
+}
+
+// siblings
+function Panel({ children, isActive, onShow }) {
+  return (
+    {isActive ? (
+        <p>{children}</p>
+      ) : (
+        <button onClick={onShow}> // fire event callback from child
+          Show
+        </button>
+      )}
+  );
 }
 ```
