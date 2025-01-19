@@ -1,8 +1,8 @@
 # React State Management
 
-```tsx
-// State
+## `useState` hook
 
+```tsx
 // when changed - component func is re-executed !!!!!
 // calling `setCount()` will schedule an update, so it won't be instant
 const [count, setCount] = useState<number>(0);
@@ -23,10 +23,20 @@ setArr((obj) => {
   const newArray = [...arr];
   // clone 2d array
   const newArray = [...arr.map(innerArray => [...innerArray])];
+  // PS: use deep cloning for complex objects
 
   newArray[0] = 'new value';
   return newArray;
 })
+```
+
+## Two-way binding
+
+```tsx
+function Component() {
+  const [name, setName] = useState("Initial Name");
+  return <input value={name} onChange={(e) => setName(e.target.value)} />;
+}
 ```
 
 ## Lifting state up
@@ -68,3 +78,18 @@ function Panel({ children, isActive, onShow }) {
   );
 }
 ```
+
+#### Ref vs State :
+
+- Refs:
+
+  - `ref.current.value = '...'` won't re-evaluated component func
+  - use to get direct DOM element access
+  - use to keep values that should not be lost during the component function re-evaluation
+  - use for reading values or accessing browser APIs
+  - don't use for UI value bindings, use State instead
+
+- State:
+  - `setState(...)` will re-evaluate component func
+  - use for UI bindings
+  - don't use for values that have no effect on UI, use Ref instead
