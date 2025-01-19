@@ -9,10 +9,13 @@ import { LIST } from "./data";
 
 import Component from "./Component";
 
-import "./Component.css"; // public styles
+// public styles
+import "./Component.css";
 
-import svg from "/vite.svg"; // import from public folder
-import svg from "../../assets/react.svg"; // import from relative path
+// import from public folder
+import svg from "/vite.svg";
+// import from relative path
+import svg from "../../assets/react.svg";
 ```
 
 ```tsx
@@ -21,12 +24,8 @@ import svg from "../../assets/react.svg"; // import from relative path
 // Uppercase
 export default function Component() {
   return (
-    // only one container allowed
-    <>
-      <div>Content</div>
-      <OtherComponent />
-    </>
-  )
+    <div>Content</div>
+  );
 }
 ```
 
@@ -107,7 +106,7 @@ function Component({ children }) {
   }
 
   return (
-    {/* fragment (aka ng-container) - not rendered into DOM */}
+    {/* fragment (aka ng-container) - not rendered into DOM, use it to wrap few elements into one */}
     <>
       {/* render passed content */}
       {children}
@@ -251,20 +250,19 @@ In case when one of children affects a sibling - state should be managed by the 
 ```tsx
 // common parent
 function Accordion({ title, children, isActive }) {
-  const [activeIndex, setActiveIndex] = useState(0); // manage state in parent
+  // manage shared state in parent
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <>
       <Panel
-        isActive={activeIndex === 0} // pass state from parent
-        onShow={() => setActiveIndex(0)} // handle event
-      >
+        isActive={activeIndex === 0}
+        onShow={() => setActiveIndex(0)}>
         ...
       </Panel>
       <Panel
-        isActive={activeIndex === 1} // pass state from parent
-        onShow={() => setActiveIndex(1)} // handle event
-      >
+        isActive={activeIndex === 1}
+        onShow={() => setActiveIndex(1)}>
         ...
       </Panel>
     </>
@@ -277,7 +275,7 @@ function Panel({ children, isActive, onShow }) {
     {isActive ? (
         <p>{children}</p>
       ) : (
-        <button onClick={onShow}> // fire event callback from child
+        <button onClick={onShow}>
           Show
         </button>
       )}
