@@ -9,6 +9,7 @@ function App() {
     {showComponent && <Component />}
 
     // or if you use smth like <dialog> - open it via `ref.API()` instead.
+    // <MyModal ref={myModal}>...</MyModal> -> myModal.current.open();
   );
 }
 ```
