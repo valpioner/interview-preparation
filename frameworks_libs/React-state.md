@@ -6,7 +6,7 @@
 // when changed - component func is re-executed !!!!!
 // calling `setCount()` will schedule an update, so it won't be instant
 const [count, setCount] = useState<number>(0);
-const [arr, setArr] = useState<number>([...]);
+const [arr, setArr] = useState<number[]>([]);
 
 // WRONG - don't use this approach when new state depends on old state
 setCount(!count);
@@ -15,24 +15,29 @@ setCount(!count);
 setCount((count) => !count); // best practice
 
 // WRONG
-setArr((obj) => arr[0] = 'new value')
+setArr((arr) => {
+  arr[0] = "new value";
+  return arr;
+});
 
 // CORRECT
-setArr((obj) => {
+setArr((arr) => {
   // clone 1d array
   const newArray = [...arr];
   // clone 2d array
-  const newArray = [...arr.map(innerArray => [...innerArray])];
+  const newArray2D = [...arr.map((innerArray) => [...innerArray])];
   // PS: use deep cloning for complex objects
 
-  newArray[0] = 'new value';
+  newArray[0] = "new value";
   return newArray;
-})
+});
 ```
 
 ## Two-way binding
 
 ```tsx
+import { useState } from "react";
+
 function Component() {
   const [name, setName] = useState("Initial Name");
   return <input value={name} onChange={(e) => setName(e.target.value)} />;
@@ -44,6 +49,8 @@ function Component() {
 In case when one of children affects a sibling - state should be managed by the common parent.
 
 ```tsx
+import { useState } from "react";
+
 // common parent
 function Accordion({ title, children, isActive }) {
   // manage shared state in parent
@@ -51,14 +58,10 @@ function Accordion({ title, children, isActive }) {
 
   return (
     <>
-      <Panel
-        isActive={activeIndex === 0}
-        onShow={() => setActiveIndex(0)}>
+      <Panel isActive={activeIndex === 0} onShow={() => setActiveIndex(0)}>
         ...
       </Panel>
-      <Panel
-        isActive={activeIndex === 1}
-        onShow={() => setActiveIndex(1)}>
+      <Panel isActive={activeIndex === 1} onShow={() => setActiveIndex(1)}>
         ...
       </Panel>
     </>
@@ -68,45 +71,39 @@ function Accordion({ title, children, isActive }) {
 // siblings
 function Panel({ children, isActive, onShow }) {
   return (
-    {isActive ? (
-        <p>{children}</p>
-      ) : (
-        <button onClick={onShow}>
-          Show
-        </button>
-      )}
+    <>{isActive ? <p>{children}</p> : <button onClick={onShow}>Show</button>}</>
   );
 }
 ```
 
-## Ref vs State :
+## Ref vs State:
 
 - Refs:
 
-  - `ref.current.value = '...'` won't re-evaluated component func
-  - use to get direct DOM element access
-  - use to keep values that should not be lost during the component function re-evaluation
-  - use for reading values or accessing browser APIs
-  - don't use for UI value bindings, use State instead
+  - `ref.current.value = '...'` won't re-evaluate the component function
+  - Use to get direct DOM element access
+  - Use to keep values that should not be lost during the component function re-evaluation
+  - Use for reading values or accessing browser APIs
+  - Don't use for UI value bindings, use State instead
 
 - State:
-  - `setState(...)` will re-evaluate component func
-  - use for UI bindings
-  - don't use for values that have no effect on UI, use Ref instead
+  - `setState(...)` will re-evaluate the component function
+  - Use for UI bindings
+  - Don't use for values that have no effect on UI, use Ref instead
 
 ## Sharing state between components
 
 ### Prop drilling
 
-Prop drilling - passing shared data through multiple components layers
+Prop drilling - passing shared data through multiple component layers
 
 ![alt text](image.png)
 
 ### Component Composition approach
 
-Manage/Own content in a top lvl component instead of inner components, and refactor inner components to act only as a wrapper components. Pass content as a `children`.
+Manage/Own content in a top-level component instead of inner components, and refactor inner components to act only as wrapper components. Pass content as `children`.
 
-This might lead to bloated top lvl component.
+This might lead to a bloated top-level component.
 
 ### Context API
 
@@ -114,14 +111,14 @@ This might lead to bloated top lvl component.
 
 1. Create a context file
 
-It is common convention to store context files in a src/store
+It is common convention to store context files in `src/store`.
 
 ```jsx
 // src/store/shopping-cart-context.jsx
 
 import { createContext } from "react";
 
-// values from here won't get used, but they used for auto-completion
+// Default values are used for auto-completion and as fallback values
 export const CartContext = createContext({
   items: [],
   addItemToCart: () => {},
@@ -133,36 +130,37 @@ export const CartContext = createContext({
 ```jsx
 // src/store/shopping-cart-context.jsx
 
-inport { CartContext } from './store/shopping-cart-context.jsx';
+import { CartContext } from "./store/shopping-cart-context.jsx";
+import { useState } from "react";
 
 function App() {
   const [shoppingCart, setShoppingCart] = useState({
-    items: []
-  })
+    items: [],
+  });
 
   const ctxValue = {
     items: shoppingCart.items,
-    addItemToCart: handleAddItemToCart
+    addItemToCart: handleAddItemToCart,
   };
 
   return (
-    // For React 19 and above
-    <CartContext value={ctxValue}>
+    // For React 18 and below
+    <CartContext.Provider value={ctxValue}>
       <Header />
       <Shop>
-        {PRODUCTS.map(product => (
+        {PRODUCTS.map((product) => (
           <li key={product.id}>
             <Product onAddToCart={handleAddItemToCart} />
           </li>
         ))}
       </Shop>
-    </CartContext>
+    </CartContext.Provider>
 
-    // For React 18 and below
-    // <CartContext.Provider value={ctxValue}>
+    // For React 19 and above
+    // <CartContext value={ctxValue}>
     //   ...
-    // <CartContext.Provider>
-  )
+    // </CartContext>
+  );
 }
 ```
 
@@ -174,12 +172,11 @@ function App() {
 // import { use } from 'react';
 import { useContext } from 'react';
 
-inport { CartContext } from '../store/shopping-cart-context.jsx';
+import { CartContext } from '../store/shopping-cart-context.jsx';
 
 export default function Cart() {
   // Available only in React 19 +
   // const cartCtx = use(CartContext);
-  // const cartCtx = useContext(CartContext);
   const { items } = useContext(CartContext);
 
   return (
@@ -191,7 +188,7 @@ export default function Cart() {
         })
       )}
     </div>
-  )
+  );
 }
 ```
 
@@ -199,7 +196,7 @@ export default function Cart() {
 import { useContext } from "react";
 import { CartContext } from "../store/shopping-cart-context.jsx";
 
-export default function Product() {
+export default function Product({ id }) {
   const { addItemToCart } = useContext(CartContext);
 
   return (
