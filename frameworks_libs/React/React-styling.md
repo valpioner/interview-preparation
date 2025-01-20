@@ -193,11 +193,11 @@ Main idea is to allow tiny prebuilt utility classes
    let headerClasses = "...";
 
    if (invalid) {
-     headerCalsses += '...';
-     labelCalsses += '...';
+     headerClasses += '...';
+     labelClasses += '...';
    } else {
-     headerCalsses += '...';
-     labelCalsses += '...';
+     headerClasses += '...';
+     labelClasses += '...';
    }
 
    <h1 className="flex flex-col items-center mt-8 mb-8"></h1>
@@ -212,7 +212,7 @@ Main idea is to allow tiny prebuilt utility classes
 - rapid development
 - no style clashes since you don't define any CSS rules
 - highly configurable & extensible
-- for those who like this approach of combining unitily classes
+- for those who like this approach of combining utility classes
 
 ### Disadvantages👍
 
