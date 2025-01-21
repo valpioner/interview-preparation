@@ -4,7 +4,10 @@
 
 - Hooks are essential tools when working with React components.
   - If not used correctly they might lead to performance issues such as infinite render cycle loop. So be aware what hook does what.
+- React components should be as simple as possible, and should not contain any logic that is not related to rendering.
 - Inner components can be a simple wrappers, and simply render a content that is passed to it without handling much logic.
+- You should think what might change what , and what should be re-rendered when something changes. You can move some logic to a separate component to prevent unnecessary re-renders or performance issues. Or maybe even think of best possible Component Composition.
+- Child component re-executions don't trigger re-render of parent component. Only vice versa.
 
 ## Render cycle
 
@@ -38,3 +41,16 @@ There are several ways to style React components:
 - Styled-components: `styled.div` or `styled(MyComponent)`
 - CSS modules: `import styles from './styles.module.css'`
 - Tailwind CSS: `className="bg-blue-500"`
+
+## React add can be optimized by:
+
+- Splitting components into smaller components to prevent unnecessary re-renders.
+- Using `memo` and `useMemo` hooks to prevent unnecessary re-renders.
+- Using `useCallback` to prevent re-creation of functions every render cycle.
+- Using `useEffect` only when necessary, and moving side effects to a separate component if needed.
+- Using `key` prop to identify elements in a list and optimize rendering.
+- Using `React.StrictMode` to highlight potential problems in an application.
+- Using `useContext` to share data between components without passing props through every level of the tree.
+- Using `useReducer` for more complex state management.
+- Using `useRef` to store mutable values that don't trigger re-rendering of the component.
+- Using `Million.js` package to make complex React components more performant by replacing React Virtual DOM mechanism with a more efficient one.

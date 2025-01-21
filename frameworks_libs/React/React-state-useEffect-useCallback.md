@@ -102,6 +102,7 @@ function App() {
   }
 
   // CORRECT - wrap it in useCallback to prevent infinite loop. React stores it internally and it won't be recreated every time, therefore it won't trigger useEffect again
+  // If no cleanup provided, strict mode might help you identify memory leaks or other bugs, because it will run twice
   const handleDelete = useCallback(
     function handleDelete() {},
     // deps array work the same as deps for useEffect hook
@@ -136,8 +137,6 @@ export default function DeleteConfirmation({ onConfirm }) {
 ## Extra Notes
 
 Depending on the logic `useEffect()` might lead to state changes frequently, which can lead to performance issues. To prevent this, you can move useEffect with the specific UI components into a separate component, so it won't affect the rest of the main component.
-
-````tsx
 
 ## Not all side effects require `useEffect()`
 
@@ -174,4 +173,4 @@ function App() {
   );
 }
 
-````
+```

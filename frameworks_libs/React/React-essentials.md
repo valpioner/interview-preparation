@@ -185,3 +185,57 @@ export default function Tab({ ...props }) {
 };
 
 ```
+
+## Strict mode
+
+Strict mode is a tool for highlighting potential problems in an application. Like Fragment, StrictMode does not render any extra DOM elements. It only activates additional checks and warnings for its descendants.
+
+It makes components render twice in development to help you capture possible bugs, because components should work the same way doesn't matter how much time it was rendered.
+
+```tsx
+// main.jsx
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+## `key` prop
+
+`key` prop is unique React prop. It used to identify elements in a list. It also helps React to understand which elements have changed, are added, or removed. It should be unique among siblings.
+
+You should not use `index` as a key in the dynamic list, because:
+
+- it can lead to bugs, instead, bind to the unique value like id.
+- it will make React re-render the whole list every time, because it will think that the list has changed. Using unique id will make React re-render only the changed item.
+
+Once it is changed, React will re-render the component, meaning you can add it not only to the lists but on your own component to make it unmount and mount again when key is changed.
+
+## How react works (Behind the scenes)
+
+### How React updates the DOM (amd how are component functions re-executed)
+
+- When React reads the JSX of some Component and sees some <CustomComponent /> (not built-in ones like <div>), it executes the function of that component AND ALL IT"S CHILDREN!!! To make them not re-evaluate each time - use `memo` to prevent re-execution of children components if their props were not changed.
+
+- React builds a component tree structure that represents the relationship between components.
+
+- React re-renders only those components that have changed. It compares the previous state of the component with the new state and decides whether to re-render it or not.
+
+- React Dev Tools can be used to see the component tree, what components were re-executed and why.
+
+- React creates a virtual DOM tree, which is a copy of the real DOM tree.
+
+- Child component re-executions don't trigger re-render of parent component. Only vice versa.
+
+- React creates a component Tree virtual DOM tree, then a Virtual Snapshot of a Target HTML Code which is being compared to the old snapshot (still virtually - in memory), then applies only those changes to the real DOM. This is called Reconciliation and it saves performance comparing to read DOM manipulations.
+
+- React tracks state by component TYPE & POSITION (of that component) in the tree, so it knows what to re-render. Position is managed by the `key` prop.
+- React schedules state updates and re-renders components in the next tick of the event loop. It batches state updates and re-renders components to improve performance.
+
+### How to prevent unnecessary re-execution of component functions
+
+- use `memo()` to prevent component function re-execution if their props were not changed. Though it is not recommended to use it on every component, because it can lead to performance issues.
+
+- use clever component composition of your components, so they won't re-execute every time. Maybe it is better to move some UI with specific state logic into a separate component, and eventually remove memo() where it is not needed.
