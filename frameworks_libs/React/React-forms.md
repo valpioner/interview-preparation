@@ -120,7 +120,7 @@ export default function ComponentWithForm() {
     //   console.log(key, value);
     // });
 
-    data.language = fd.getAll("language");;
+    data.language = fd.getAll("language");
   }
 
   return (
@@ -139,6 +139,7 @@ export default function ComponentWithForm() {
         <label htmlFor="python">Python</label>
         <input type="radio" name="language" value="java" />
         <label htmlFor="java">Java</label>
+      </fieldset>
 
       <button type="reset">Reset</button>
       <button type="submit">Submit</button>
@@ -515,3 +516,270 @@ export default function Login() {
 ```
 
 6. Using 3rd party libraries for form validation like `React Hook Form`, `Formik`, etc.
+
+## Handling Forms via Form Actions (React 19+)
+
+Form Actions features is available only in React 19+. It allows you to handle form submission logic in a separate function and pass it to the form component as a prop.
+
+Key points:
+
+- you can define synchronous or asynchronous functions that you could use as a values for the `action` attribute of the form element, or for the `formAction` attribute of the button element. React will make sure to call those functions when the form is submitted.
+- form submissions also will reset the form which might be a problem, and that is why you might want to use `useActionState` hook to handle the form submission logic and errors, so that your formAction can return a value, and then you can use that formState to update UI to show some error msg, but also to pre/re-populate `defaultValue`s input with a values entered by the user for example.
+- formActions can be synchronous or asynchronous, and you can use `useActionState` hook to handle both cases. For asynchronous formActions you can use `useOptimistic` hook to update the UI optimistically with a temporary value before the server responds, you can use `useFormStatus` as well which you can use to update UI while the form is being submitted.
+
+### Synchronous Form Actions Function
+
+```jsx
+import { isEmail, isNotEmpty, hasMinLength } from "./utils/validation";
+import { useActionState } from "react";
+
+// moved out of component function, because no props and state involved.
+function signupAction(prevFormState, formData) {
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const language = formData.getAll("language"); // array of values
+
+  // validate the form data
+  let errors = [];
+
+  if (!isEmail(email)) {
+    errors.push("Email must contain '@' character");
+  }
+
+  if (!isNotEmpty(password) || !hasMinLength(password, 6)) {
+    errors.push("Password must not be empty");
+  }
+
+  if (language.length === 0) {
+    errors.push("Please choose your favorite programming language");
+  }
+
+  if (errors.length > 0) {
+    return {
+      errors,
+      enteredValues: {
+        email,
+        password,
+        language,
+      },
+    };
+  }
+
+  return { errors: null };
+}
+
+export default function SignUp() {
+  const [formState, formAction, pending] = useActionState(signupAction, {
+    errors: null,
+  });
+
+  return (
+    // React overwrites `action` logic to handle the form submission
+    <form action={formAction}>
+      <label htmlFor="email">Email</label>
+      <input
+        type="email"
+        name="email"
+        defaultValue={formState.enteredValues?.email}
+      />
+
+      <label htmlFor="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        defaultValue={formState.enteredValues?.password}
+      />
+
+      <fieldset>
+        <input
+          type="radio"
+          name="language"
+          value="javascript"
+          defaultChecked={formState.enteredValues?.language.includes(
+            "javascript"
+          )}
+        />
+        <input
+          type="radio"
+          name="language"
+          value="python"
+          defaultChecked={formState.enteredValues?.language.includes("python")}
+        />
+        <input
+          type="radio"
+          name="language"
+          value="java"
+          defaultChecked={formState.enteredValues?.language.includes("java")}
+        />
+      </fieldset>
+
+      {formState.errors && (
+        <ul className="error">
+          {formState.errors.map((error) => (
+            <li key={error}>{error}</li>
+          ))}
+        </ul>
+      )}
+
+      <button type="reset">Reset</button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+### Asynchronous Form Actions Function
+
+```jsx
+import { FormActionState, use } from "react";
+import { OpinionContext } from "../store/OpinionContext";
+
+export function NewOpinion() {
+  const { addOpinion } = use(OpinionContext);
+
+  async function shareOpinionAction(prevState, formData) {
+    const title = formData.get("title");
+    const body = formData.get("body");
+    const userName = formData.get("userName");
+
+    let errors = [];
+
+    if (title.trim().length < 5) {
+      errors.push("Title must not be empty");
+    }
+
+    if (body.trim().length < 10 || body.trim().length > 300) {
+      errors.push("Opinion must be between 10 and 300 characters");
+    }
+
+    if (!userName.trim()) {
+      errors.push("Please provide your name");
+    }
+
+    if (errors.length > 0) {
+      return {
+        errors,
+        enteredValues: {
+          title,
+          body,
+          userName,
+        },
+      };
+    }
+
+    // submit the form data to the server
+    await addOpinion({ title, body, userName });
+    return { errors: null };
+  }
+
+  const [formState, formAction, pending] = useActionState(shareOpinionAction, {
+    errors: null,
+  });
+
+  return (
+    <div className="new-opinion">
+      <h2>New Opinion</h2>
+      <form action={formAction}>
+        <p className="control">
+          <label htmlFor="userName">Your Name</label>
+          <input
+            type="text"
+            name="userName"
+            defaultValue={formState.enteredValues?.userName}
+          />
+        </p>
+
+        <p className="control">
+          <label htmlFor="title">Title</label>
+          <input
+            type="text"
+            name="title"
+            defaultValue={formState.enteredValues?.title}
+          />
+        </p>
+
+        <p className="control">
+          <label htmlFor="body">Your Opinion</label>
+          <textarea
+            name="body"
+            rows={5}
+            defaultValue={formState.enteredValues?.body}
+          ></textarea>
+        </p>
+
+        {formState.errors && (
+          <ul className="error">
+            {formState.errors.map((error) => (
+              <li key={error}>{error}</li>
+            ))}
+          </ul>
+        )}
+
+        <Submit />
+      </form>
+    </div>
+  );
+}
+```
+
+```jsx
+// can't be used in a component that has an action function, therefore we create new component for it
+import { useFormStatus } from "react-dom";
+
+export default function Submit() {
+  const [formState, formAction, pending] = useFormStatus(submitAction, {
+    errors: null,
+  });
+
+  return (
+    <p className="actions">
+      <button type="reset">Reset</button>
+      <button type="submit" disabled={pending}>
+        {pending ? "Submitting..." : "Submit"}
+      </button>
+    </p>
+  );
+}
+```
+
+We can also trigger different formActions for different buttons
+
+```jsx
+import { use, useActionState, useOptimistic } from "react";
+
+export function Opinion({opinion: { id, title. body, userName, votes }}) {
+  const { upvoteOpinion, downvoteOpinion } = use(OpinionContext);
+
+  const [optimisticCotes, setVotesOptimistically] =  useOptimistic(
+    votes,
+    (prevVotes, mode) => mode === 'up' ? prevVotes + 1 : prevVotes - 1
+  );
+
+  async function upvoteAction() {
+    setVotesOptimistically('up');
+    await upvoteOpinion(id);
+  }
+
+  async function downvoteAction() {
+    setVotesOptimistically('down');
+    await downvoteOpinion(id);
+  }
+
+  const [upvoteFormState, upvoteFormAction, upvotePending ] = useActionState(upvoteAction, null);
+  const [downvoteFormState, downvoteFormAction, downvotePending ] = useActionState(downvoteAction, null);
+
+  return (
+    <form>
+      <button formAction={upvoteFormAction} disabled={upvotePending || downvotePending}>
+        Upvote
+      </button>
+
+      <button formAction={downvoteFormAction} disabled={upvotePending || downvotePending}>
+        Downvote
+      </button>
+
+      <span>{optimisticVotes}</span>
+    </form>
+  );
+}
+```
