@@ -1,0 +1,517 @@
+# Handling Forms in React
+
+## Form building approaches
+
+### Using `useState`
+
+```jsx
+// login.jsx
+
+import { useState } from "react";
+
+export default function Login() {
+  const [enteredValue, setEnteredValue] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(username, password);
+  }
+
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEnteredValue((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="username">Username</label>
+      <input
+        type="text"
+        name="username"
+        value={enteredValue.username}
+        onChange={handleInputChange}
+      />
+
+      <label htmlFor="email">Email</label>
+      <input
+        type="email"
+        name="email"
+        value={enteredValue.email}
+        onChange={handleInputChange}
+      />
+
+      <label htmlFor="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        value={enteredValue.password}
+        onChange={handleInputChange}
+      />
+
+      <button>Reset</button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+### Using `useRef`
+
+```jsx
+// login.jsx
+
+import { useState } from "react";
+
+export default function Login() {
+  const email = useRef();
+  const password = useRef();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const enteredEmail = email.current.value;
+    const enteredPassword = password.current.value;
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email</label>
+      <input type="email" name="email" ref={email} />
+
+      <label htmlFor="password">Password</label>
+      <input type="password" name="password" ref={password} />
+
+      <button>Reset</button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+### Using native `FormData()` Browser API;
+
+```jsx
+// ComponentWithForm.jsx
+
+import { useState } from "react";
+
+export default function ComponentWithForm() {
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const fd = new FormData(e.target);
+    // ?
+    // .forEach((value, key) => {
+    //   console.log(key, value);
+    // });
+
+    // it won't get the values of the group of inputs with the same `name` like `language`, so we need to get it manually
+    const data = Object.fromEntries(fd.entries());
+    // ?
+    // .forEach((key, value) => {
+    //   console.log(key, value);
+    // });
+
+    data.language = fd.getAll("language");;
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email</label>
+      <input type="email" name="email" />
+
+      <label htmlFor="password">Password</label>
+      <input type="password" name="password" />
+
+      <fieldset>
+        <legend>Choose your favorite programming language</legend>
+        <input type="radio" name="language" value="javascript" />
+        <label htmlFor="javascript">JavaScript</label>
+        <input type="radio" name="language" value="python" />
+        <label htmlFor="python">Python</label>
+        <input type="radio" name="language" value="java" />
+        <label htmlFor="java">Java</label>
+
+      <button type="reset">Reset</button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## Resetting the form
+
+1. Using `useState`
+
+```jsx
+setEnteredValues({
+  username: "",
+  email: "",
+  password: "",
+});
+```
+
+2. Using `useRef`
+
+```jsx
+// this solution should be used with caution, because it's not a good practice to manipulate the DOM directly thus not recommended
+email.current.value = "";
+```
+
+3. Using native form `reset()`
+
+```jsx
+// also a bit imperative code, but better than manipulating the DOM directly
+event.target.reset();
+```
+
+4. Using native `type="reset"`
+
+```jsx
+<button type="reset">Reset</button>
+```
+
+## Validating the form
+
+1. Validating Input on every key stroke
+
+```jsx
+import { useState } from "react";
+
+export default function ComponentWithForm() {
+  const [enteredValues, setEnteredValue] = useState({
+    email: "",
+  });
+
+  // PROBLEM - we are showing the error message too early after very first key stroke not giving the user a chance to type the email, use onBlur instead
+  const emailIsInvalid =
+    enteredValues.email !== "" && !enteredValues.email.includes("@");
+
+  return (
+    <form>
+      <label htmlFor="email">Email</label>
+      <input
+        type="email"
+        name="email"
+        value={enteredValue.email}
+        onChange={(e) => {
+          setEnteredValues((prevValue) => {
+            return {
+              ...prevValue,
+              email: e.target.value,
+            };
+          });
+        }}
+      />
+      {emailIsInvalid && (
+        <div className="error">
+          <p>Email must contain '@' character</p>
+        </div>
+      )}
+    </form>
+  );
+}
+```
+
+2. Validating Input on blur (lost focus)
+
+```jsx
+import { useState } from "react";
+
+export default function ComponentWithForm() {
+  const [enteredValues, setEnteredValue] = useState({
+    email: "",
+  });
+
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+  });
+
+  const emailIsInvalid = didEdit.email && !enteredValues.email.includes("@");
+
+  function handleInputBlur(identifier) {
+    setDidEdit((prevValue) => ({
+      ...prevValue,
+      [identifier]: true,
+    }));
+  }
+
+  function handleInputChange(identifier, e) {
+    setEnteredValues((prevValue) => ({
+      ...prevValue,
+      [identifier]: e.target.value,
+    }));
+
+    setDidEdit((prevValue) => ({
+      ...prevValue,
+      [identifier]: false,
+    }));
+  }
+
+  return (
+    <form>
+      <label htmlFor="email">Email</label>
+      <input
+        type="email"
+        name="email"
+        value={enteredValue.email}
+        onBlur={() => handleInputBlur("email")}
+        onChange={(e) => handleInputChange("email", e)}
+      />
+      {emailIsInvalid && (
+        <div className="error">
+          <p>Email must contain '@' character</p>
+        </div>
+      )}
+    </form>
+  );
+}
+```
+
+3. Validating Input on form submit
+
+```jsx
+import { useState, useRef } from "react";
+
+export default function Login() {
+  const [emailIsInvalid, setEmailIsInvalid] = useState(false);
+
+  const email = useRef();
+  const password = useRef();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const enteredEmail = email.current.value;
+    const enteredPassword = password.current.value;
+
+    const emailIsValid = enteredEmail.includes("@");
+
+    if (!emailIsValid) {
+      setEmailIsInvalid(true);
+      return;
+    }
+
+    setEmailIsInvalid(false);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email</label>
+      <input type="email" name="email" ref={email} />
+      {emailIsInvalid && (
+        <div className="error">
+          <p>Email must contain '@' character</p>
+        </div>
+      )}
+
+      <label htmlFor="password">Password</label>
+      <input type="password" name="password" ref={password} />
+
+      <button>Reset</button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+4. Validating Input via built-in validation Props (`required` etc.)
+
+```jsx
+import { useState, useRef } from "react";
+
+export default function Login() {
+  const [emailIsInvalid, setEmailIsInvalid] = useState(false);
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email</label>
+      <input type="email" name="email" required />
+      {emailIsInvalid && (
+        <div className="error">
+          <p>Email must contain '@' character</p>
+        </div>
+      )}
+
+      <label htmlFor="password">Password</label>
+      <input type="password" name="password" minLength={6} />
+
+      <button>Reset</button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+5. By mixing the above methods
+
+## Reusable Input component
+
+1. Building a reusable input component
+
+```jsx
+export default function Input({ label, id, error, ...props }) {
+  return (
+    <div className="form-control">
+      <label htmlFor={id}>{label}</label>
+      <input id={id} {...props} />
+      {error && <p>{error}</p>}
+    </div>
+  );
+}
+```
+
+2. Using the reusable input component
+
+```jsx
+export default function Login() {
+  const [emailIsInvalid, setEmailIsInvalid] = useState(false);
+  const [passwordIsInvalid, setPasswordIsInvalid] = useState(false);
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Input
+        label="Email"
+        id="email"
+        type="email"
+        name="email"
+        value={enteredValue.email}
+        onBlur={() => handleInputBlur("email")}
+        onChange={(e) => handleInputChange("email", e.target.value)}
+        error={emailIsInvalid && 'Email must contain "@" character'}
+        required
+      />
+
+      <Input
+        label="Password"
+        id="password"
+        type="password"
+        name="password"
+        value={enteredValue.password}
+        onBlur={() => handleInputBlur("email")}
+        onChange={(e) => handleInputChange("email", e.target.value)}
+        error={
+          passwordIsInvalid && "Password must be at least 6 characters long"
+        }
+        minLength={6}
+      />
+
+      <button type="reset">Reset</button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+3. Optionally move validation logic into a utility function
+
+```jsx
+export function isEmail(value) {
+  return value.includes("@");
+}
+
+export function isNotEmpty(value) {
+  return value.trim() !== "";
+}
+
+export function isMinLength(value, minLength) {
+  return value.trim().length >= minLength;
+}
+
+export function isEqualsToOtherValue(value, otherValue) {
+  return value === otherValue;
+}
+```
+
+4. Using the utility functions in the form component
+
+```jsx
+const emailIsInvalid =
+  didEdit.email &&
+  !isEmail(enteredValues.email) &&
+  isNotEmpty(enteredValues.email);
+
+const passwordIsInvalid =
+  didEdit.password && !isMinLength(enteredValues.password, 6);
+```
+
+5. Custom hooks for form validation
+
+Create custom hooks for input validation
+
+```jsx
+// src/hooks/useInput.js
+
+import { useState } from "react";
+
+export function useInput(defaultValue, validationFn) {
+  const [enteredValue, setEnteredValue] = useState(defaultValue);
+  const [didEdit, setDidEdit] = useState(false);
+
+  const valueIsValid = validationFn(enteredValue);
+
+  function handleInputChange(event) {
+    setEnteredValue(event.target.value);
+    setDidEdit(false);
+  }
+
+  function handleInputBlur() {
+    setDidEdit(false);
+  }
+
+  return {
+    value: enteredValue,
+    handleInputChange,
+    handleInputBlur,
+    hasError: !valueIsValid && didEdit,
+  };
+}
+```
+
+Use the custom hook in the form component
+
+```jsx
+import { useInput } from "./hooks/useInput";
+
+export default function Login() {
+  const {
+    value: email,
+    handleInputChange: handleEmailChange,
+    handleInputBlur: handleEmailBlur,
+    hasError: emailHasError,
+  } = useInput("", (value) => isEmail(value) && isNotEmpty(value));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (emailHasError) return;
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Input
+        label="Email"
+        id="email"
+        type="email"
+        name="email"
+        value={emailValue}
+        onBlur={handleEmailBlur}
+        onChange={handleEmailChange}
+        error={emailHasError && 'Email must contain "@" character'}
+        required
+      />
+
+      <button type="reset">Reset</button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+6. Using 3rd party libraries for form validation like `React Hook Form`, `Formik`, etc.

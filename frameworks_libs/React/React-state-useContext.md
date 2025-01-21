@@ -14,13 +14,13 @@ Problem:
 
 Passing props through multiple levels of components (also known as a pros drilling) is cumbersome and error-prone.
 
-![alt text](image.png)
+![alt text](React-state-useContext-prop-drill.png)
 
 Solution:
 
 Context API is used to share data between components without passing props through every level of the tree. When the context changes, all components that consume that context will re-render.
 
-![alt text](image-1.png)
+![alt text](React-state-useContext-context.png)
 
 ## Example
 
