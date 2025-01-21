@@ -64,6 +64,8 @@ export default function Component() {
 ### Forward Ref
 
 ```jsx
+// Imperative way of calling methods on the component
+
 function App() {
   const dialogRef = useRef();
 
@@ -80,23 +82,43 @@ function App() {
 }
 ```
 
+```jsx
+// Declarative way of calling methods on the component
+
+import { useState } from "react";
+
+function App() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function openDialog() {
+    setIsOpen(true);
+  }
+
+  // declarative way is to pass a prop to the component to let it be handled there, no need to bind to its ref and call methods directly
+  return <ResultModal isOpen={isOpen} />;
+}
+```
+
 ### Receive Ref
 
-#### Receive Ref in React >= 16.3
+#### Receive Ref in React >= 19
+
+Imperative way of calling methods on the component
 
 ```jsx
-import { useImperativeHandle, forwardRef, useRef } from "react";
+import { useImperativeHandle, useRef } from "react";
 
-const ResultModal = forwardRef((props, ref) => {
+function ResultModal({ ref, ...props}) {
   const dialog = useRef();
 
-  // exposes component's API
+  // exposes component's API in an IMPERATIVE WAY, the declarative way would be to use props (remove ref, useImperativeHandle and simply pass a prop to the component and handle it here)
   useImperativeHandle(ref, () => ({
     open() {
       // should be updated accordingly to changes
       dialog.current.showModal();
     },
   }));
+
 
   // if we change `dialog` to let's say `div`, imperativeHandle API should be updated to make it work as expected.
   return <dialog ref={dialog}>...</dialog>;
@@ -105,7 +127,39 @@ const ResultModal = forwardRef((props, ref) => {
 export default ResultModal;
 ```
 
-#### Receive Ref in React <= 16.2
+Declarative way of calling methods on the component
+
+```jsx
+import { useRef, useEffect } from "react";
+
+// here we don't get ref as a prop, but isOpen, and we handle the logic inside the component, but not giving the parent component the ability to call methods directly on the component.
+// if open state is changed from this component, simply pass onClose prop to the component and handle it outside.
+function ResultModal({ isOpen, children }) {
+  const dialog = useRef();
+
+  // WRONG - dialog Ref is not yet available at the first render cycle. Solution is to use `useEffect` hook
+  // if (isOpen) {
+  //   dialog.current.showModal();
+  // } else {
+  //   dialog.current.close();
+  // }
+
+  // CORRECT dialog Ref is available inside effect since it executes after the first render cycle
+  useEffect(() => {
+    if (isOpen) {
+      dialog.current.showModal();
+    } else {
+      dialog.current.close();
+    }
+  }, [isOpen]);
+
+  return <dialog ref={dialog}>{children}</dialog>;
+});
+
+export default ResultModal;
+```
+
+#### Receive Ref in React <= 18
 
 ```jsx
 import { forwardRef } from "react";

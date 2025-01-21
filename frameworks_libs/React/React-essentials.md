@@ -19,7 +19,7 @@ import svg from "../../assets/react.svg";
 ## Simple component
 
 ```tsx
-// Should be Uppercased
+// Should be Uppercase
 export default function Component() {
   return <div>Content</div>;
 }
