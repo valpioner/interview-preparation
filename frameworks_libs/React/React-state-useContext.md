@@ -1,16 +1,26 @@
-# Context API and `useContext()` hook
-
-Context API is used to share data between components without passing props through every level of the tree. When the context changes, all components that consume that context will re-render.
-
-![alt text](image-1.png)
+# Context API
 
 ## Sharing state between components
 
 For sharing a data between components, there are several approaches:
 
-- prop drilling (bad practice). Passing shared data through multiple component layers
+- prop drilling (bad practice). Passing shared data (props) through multiple component layers
 - component composition (partial solution). It is when a parent component passes data to a child component via content, and a child component acts as a wrapper around it.
 - context API (best practice). It is when a parent component provides data to all its children, no matter how deep they are in the component tree.
+
+## Context API overview
+
+Problem:
+
+Passing props through multiple levels of components (also known as a pros drilling) is cumbersome and error-prone.
+
+![alt text](image.png)
+
+Solution:
+
+Context API is used to share data between components without passing props through every level of the tree. When the context changes, all components that consume that context will re-render.
+
+![alt text](image-1.png)
 
 ## Example
 
