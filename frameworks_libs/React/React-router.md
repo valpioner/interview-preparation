@@ -13,6 +13,7 @@ Related Hooks:
 - useLoaderData
 - useActionData
 - useSubmit
+- useSearchParams
 
 Related Components, functions:
 
@@ -24,10 +25,12 @@ Related Components, functions:
 - Navigate
 - Form
 - useFetcher().Form
+- redirect()
 
 ## Define and configure the routes
 
 ```jsx
+import { lazy, Suspense } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import EditEventPage from "./pages/EditEvent";
@@ -43,6 +46,9 @@ import NewEventPage from "./pages/NewEvent";
 import RootLayout from "./pages/Root";
 import { action as manipulateEventAction } from "./components/EventForm";
 import NewsletterPage, { action as newsletterAction } from "./pages/Newsletter";
+
+// Lazy load some Component
+const BlogPage = lazy(() => import("./pages/Blog"));
 
 const router = createBrowserRouter([
   {
@@ -88,6 +94,17 @@ const router = createBrowserRouter([
         path: "newsletter",
         element: <NewsletterPage />,
         action: newsletterAction,
+      },
+      {
+        path: "newsletter",
+        element: (
+          <Suspense fallback={<p>Loading...</p>}>
+            <BlogPage />
+          </Suspense>
+        ),
+        // lazy load loader function
+        loader: (meta) =>
+          import("./pages/Post").then((module) => module.loader(meta)),
       },
     ],
   },
@@ -449,4 +466,12 @@ const MyComponent = () => {
     </form>
   );
 };
+```
+
+## Query parameters (using `useSearchParams`)
+
+```jsx
+const [searchParams, setSearchParams] = useSearchParams();
+const isLogin = searchParams.get('mode') === 'login';
+<Link to={`?mode=${isLogin ? 'signup' : 'login'}`}>
 ```
