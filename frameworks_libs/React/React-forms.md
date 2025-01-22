@@ -527,6 +527,57 @@ Key points:
 - form submissions also will reset the form which might be a problem, and that is why you might want to use `useActionState` hook to handle the form submission logic and errors, so that your formAction can return a value, and then you can use that formState to update UI to show some error msg, but also to pre/re-populate `defaultValue`s input with a values entered by the user for example.
 - formActions can be synchronous or asynchronous, and you can use `useActionState` hook to handle both cases. For asynchronous formActions you can use `useOptimistic` hook to update the UI optimistically with a temporary value before the server responds, you can use `useFormStatus` as well which you can use to update UI while the form is being submitted.
 
+Related hooks:
+
+- `useActionState` - to get `formState`, `formAction` and `isSending` values. `formAction` then should be passed as an value to the form `action` attribute.
+
+```jsx
+import { useActionState } from "react";
+
+async function checkoutAction(prevState, fd) {
+  const customerData = Object.fromEntries(fd.entries());
+
+  await sendRequest(
+    JSON.stringify({
+      order: {
+        items: cartCtx.items,
+        customer: customerData,
+      },
+    })
+  );
+}
+
+const [formState, formAction, isSending] = useActionState(checkoutAction, null);
+
+<form action={formAction}>
+```
+
+- `useFormStatus` - to get `pending` value, which is `true` while the form is being submitted.
+
+```jsx
+import { useFormStatus } from "react-dom";
+
+const { pending } = useFormStatus();
+```
+
+- `useOptimistic` - to update the UI optimistically with a temporary value before the server responds.
+
+```jsx
+import { useOptimistic } from "react";
+
+const [optimisticVotes, setVotesOptimistically] = useOptimistic(
+  votes,
+  (prevVotes, mode) => (mode === "up" ? prevVotes + 1 : prevVotes - 1)
+);
+
+async function upvoteAction() {
+  setVotesOptimistically("up");
+  await upvoteOpinion(id);
+}
+
+<span>{optimisticVotes}</span>;
+```
+
 ### Synchronous Form Actions Function
 
 ```jsx
