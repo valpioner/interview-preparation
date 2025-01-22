@@ -2,25 +2,28 @@
 
 [Code example](https://github.com/academind/react-complete-guide-course-resources/tree/main/code/21%20Routing/32-finished/frontend)
 
-- layouts that wrap itself around multiple routes (element:)
-- data fetching with loader:
-- data submition with action: useFetcher - to load data behind the scenes and don't redirect after, defering data fetching using defer, and loading page once some loadings were completed using async
-- Links, and programmatic navigation with useNavigate
-
-Hooks:
+Related Hooks:
 
 - useNavigation
-  `import { Outlet, useNavigation } from 'react-router-dom';`
-  const navigation = useNavigation();
-  {navigation.state === 'loading' && <p>Loading...</p>}
+- useNavigate
+- useRouteError
+- useLocation
+- useFetcher
+- useRouteLoaderData
+- useLoaderData
+- useActionData
+- useSubmit
 
-allows you to programmatically navigate through your application
-navigate('/home');
-it returns the current navigation state, which can be 'loading', 'navigating', or 'idle'
+Related Components, functions:
 
-- useNavigate - allows you to programmatically navigate through your application
-  const navigate = useNavigate();
-  navigate('/about');
+- RouterProvider
+- createBrowserRouter()
+- Outlet
+- Link
+- NavLink
+- Navigate
+- Form
+- useFetcher().Form
 
 ## Define and configure the routes
 
@@ -219,12 +222,12 @@ navigate("/home", { state: { id: 1, name: "ABS" } });
 
 ### Navigate programmatically from JSX (using `Navigate` component)
 
+The `Navigate` component is a wrapper around the `useNavigate` hook, and the current location changes when you render it.
+
 ```jsx
 import { Navigate } from "react-router-dom";
 <Navigate to="/home" state={{ todos: [] }} replace={true} />;
 ```
-
-The `Navigate` component is a wrapper around the `useNavigate` hook, and the current location changes when you render it.
 
 ## Get navigation state (using `useNavigation`)
 
