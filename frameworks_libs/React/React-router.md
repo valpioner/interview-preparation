@@ -14,6 +14,7 @@ Related Hooks:
 - useActionData
 - useSubmit
 - useSearchParams
+- useParams
 
 Related Components, functions:
 
