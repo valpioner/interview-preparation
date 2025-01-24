@@ -1,4 +1,6 @@
-# Thinking in React way
+# React
+
+React is a JavaScript library for building user interfaces.
 
 ## General notes
 
