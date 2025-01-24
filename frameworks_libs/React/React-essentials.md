@@ -239,3 +239,195 @@ Once it is changed, React will re-render the component, meaning you can add it n
 - use `memo()` to prevent component function re-execution if their props were not changed. Though it is not recommended to use it on every component, because it can lead to performance issues.
 
 - use clever component composition of your components, so they won't re-execute every time. Maybe it is better to move some UI with specific state logic into a separate component, and eventually remove memo() where it is not needed.
+
+## Compound Components Pattern
+
+- Compound components is a pattern to create a set of components that are designed to work together. They are used to create complex components with a simple API.
+
+Simple example:
+
+`<select>` and `<option>` are compound components. `<option>` is a child of `<select>`, and they work together to create a dropdown list.
+
+```html
+<select>
+  <option value="1">Option 1</option>
+  <option value="2">Option 2</option>
+  <option value="3">Option 3</option>
+</select>
+```
+
+React example:
+
+<Accordion> and <Accordion.Item> are compound components. <Accordion.Item> is a child of <Accordion>, and they work together to create an accordion. To make sure that <Accordion.Item> is used but not <AccordionItem>, you can merge all related components into one file and remove the export of <AccordionItem>.
+
+```tsx
+<Accordion>
+  <Accordion.Item id="1" className="accordion-item">
+    <Accordion.Title className="accordion-item-title">Title 1</Accordion.Title>
+    <Accordion.Content className="accordion-item-content">Content 1</Accordion.Content>
+  </Accordion.Item>
+
+  <Accordion.Item id="2" className="accordion-item">>
+    <Accordion.Title className="accordion-item-title">Title 2</Accordion.Title>
+    <Accordion.Content className="accordion-item-content">Content 2</Accordion.Content>
+  </Accordion.Item>
+
+  <Accordion.Item id="3" className="accordion-item">>
+    <Accordion.Title className="accordion-item-title">Title 3</Accordion.Title>
+    <Accordion.Content className="accordion-item-content">Content 3</Accordion.Content>
+  </Accordion.Item>
+</Accordion>
+```
+
+```tsx
+import { createContext, useState, useContext } from "react";
+
+const AccordionContext = createContext();
+
+export function useAccordion() {
+  const ctx = useContext(AccordionContext);
+
+  if (!ctx) {
+    throw new Error("useAccordion must be used within AccordionProvider");
+  }
+}
+
+export default function Accordion({ children }) {
+  const [activeId, setActiveId] = useState();
+
+  function toggleItem(id) {
+    setActiveId((prevId) => (prevId === id ? null : id));
+  }
+
+  const contextValue = {
+    activeId,
+    toggleItem,
+  };
+
+  return (
+    <AccordionContext.Provider value={contextValue}>
+      <ul>{children}</ul>
+    </AccordionContext.Provider>
+  );
+}
+
+// It is a common pattern to export the compound component as a property of the main component and use it like this:
+Accordion.Item = AccordionItem;
+Accordion.Title = AccordionItem;
+Accordion.Content = AccordionItem;
+```
+
+```tsx
+import { useAccordion } from "./Accordion";
+
+import { createContext, useContext } from "react";
+
+const AccordionItemContext = createContext();
+
+export function useAccordionItem() {
+  const ctx = useContext(AccordionItemContext);
+
+  if (!ctx) {
+    throw new Error(
+      "AccordionItem-related components must be wrapped by <Accordion.Item>"
+    );
+  }
+}
+
+export default function AccordionItem({ id, title, children }) {
+  const { activeId, toggleItem } = useAccordion();
+
+  const isActive = activeId === id;
+
+  return (
+    <AccordionItemContext.Provider value={id}>
+      <li>
+        <button onClick={() => toggleItem(id)}>Toggle</button>
+        {isActive && <div>{children}</div>}
+      </li>
+    </AccordionItemContext.Provider>
+  );
+}
+```
+
+Same way you create `<Accordion.Title>` and `<Accordion.Content>` components.
+
+## Render Props Pattern
+
+Render props is a pattern to pass a function as a children prop to a component. The function is called by the component to render its content. If we want to have a generic component that can render different content in a different way, we can use the render props pattern.
+
+1. When using a component (in JSX) that has to render content in a different way, we have to pass a function (that returns sone renderable content) as a children.
+
+```tsx
+<SearchableList
+  items={[
+    { id: 1, name: "Item 1" },
+    { id: 2, name: "Item 2" },
+  ]}
+  itemKeyFn={(item) => item.id}
+>
+  // instruction how to render each item as an object
+  {(item) => <Place item={item} />}
+</SearchableList>
+
+<SearchableList items={['item 1', 'item 2'] itemKeyFn={(item) => item}>
+  // instruction how to render each item as a string
+  {(item) => item}
+</SearchableList>
+```
+
+2. Inside a component use `{children(item)}` instead of `{children}` to render the content in a desired generic way.
+
+```tsx
+export default function SearchableList({ items, itemKeyFn, children }) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  return (
+    <div>
+      <input type="search" onChange={(e) => setSearchTerm(e.target.value)} />
+      <ul>
+        {searchResults.map((item) => (
+          <li key={itemKeyFn(item)}>{children(item)}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+## Debouncing technique
+
+Debouncing is a technique to delay the execution of a function until a certain amount of time has passed since the last time it was called. It is used to prevent a function from being called too frequently.
+
+```tsx
+export default function SearchableList({ items, itemKeyFn, children }) {
+  const lastChange = useRef(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+
+  function handleChange(event) {
+    return function (...args) {
+      if (lastChange.current) {
+        clearTimeout(lastChange.current);
+      }
+
+      lastChange.current = setTimeout(() => {
+        lastChange.current = null;
+        setSearchTerm(event.target.value);
+      }, 300);
+    };
+  }
+
+  return (...);
+}
+```
+
+## React state management
+
+React state can be managed via:
+
+- `useState` hook
+- `useReducer` hook
+- `context` API (good for low frequency updates)
+- `redux` library (good for high frequency updates)
+- custom hooks store (aka custom Redux store implementation)
