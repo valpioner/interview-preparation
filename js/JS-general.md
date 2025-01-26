@@ -1,114 +1,106 @@
-.//Ctrl+K+0 - unfold
 
+# JavaScript general info
 
-{/* Interview questions links:
+TODO: review and update general docs
 
-  awesome-interview-questions:
-  https://github.com/MaximAbramchuck/awesome-interview-questions
+## Interview questions links
 
-  Front-end-Developer-Interview-Questions:
-  https://github.com/h5bp/Front-end-Developer-Interview-Questions
+- [awesome-interview-questions](https://github.com/MaximAbramchuck/awesome-interview-questions)
+- [Front-end-Developer-Interview-Questions](https://github.com/h5bp/Front-end-Developer-Interview-Questions)
+- [21 Essential JavaScript Interview Questions](https://www.codementor.io/@nihantanu/21-essential-javascript-tech-interview-practice-questions-answers-du107p62z)
+- [37 Essential JavaScript Interview Questions (TopTal)](https://www.toptal.com/javascript/interview-questions)
+- [JS: Basics and Tricky Questions](http://www.thatjsdude.com/interview/js2.html)
 
-  21 Essential JavaScript Interview Questions:
-  https://www.codementor.io/@nihantanu/21-essential-javascript-tech-interview-practice-questions-answers-du107p62z
+## GENERAL QUESTIONS
 
-  37 Essential JavaScript Interview Questions (TopTal)
-  https://www.toptal.com/javascript/interview-questions
+- general:
+  - event bubbling / event capturing (trickling)
+  - mutable vs immutable
 
-  JS: Basics and Tricky Questions:
-  http://www.thatjsdude.com/interview/js2.html
+- JS core:
+  - data types
+  - scope / lexical environment
+  - closure
+  - hoisting
+  - prototypes
+  - this
+    - new O()
+    - call, apply, bind
+    - obj.func()
+    - func()
+    - () =>
+  - async
+    - single threaded
+    - JS Engine / JS execution context
+    - heal, call stack
+    - web api (timers, XHR, DOM etc.)
+    - event loop, callback queue
+    - promise, micro-tasks
 
-*/
-}
+- function, class
+  - class vs function
+  - pure function
+  - first-class functions
+  - IIFE / module pattern
+  - static
 
-{ /* GENERAL QUESTIONS
+- DOM manipulations
 
-  general:
-    - event bubbling / event capturing (trickling)
-    - mutable vs immutable
+```text
+Q: Two main programming paradigms in JavaScript, its difference
 
-  js core:
-    - data types
-    - scope / lexical environment
-    - closure
-    - hoisting
-    - prototypes
-    - this
-        - new O()
-        - call, apply, bind
-        - obj.func()
-        - func()
-        - () =>
-    - async
-        - single threaded
-        - JS Engine / JS execution context
-        - heal, call stack
-        - web api (timers, XHR, DOM etc.)
-        - event loop, callback queue
-        - promice, microtasks
+A:
 
-  function, class
-    - class vs function
-    - pure function
-    - first-class functions
-    - IIFE / module pattern
-    - static
+- OOP (SOLID, classes, prototypal inheritance)
+  - pros: easy to understand, use imperative over declarative style, reads more straight-forward
+  - cons: depends on shared state, may lead to race condition
 
-    DOM manipulations
+- Functional programming (first class functions, closures)
+  - pros: no shared state or side-effects leads to no bugs related to race conditions, easy to recompose functions for more reusable code. Things don't compete for shared resources. Object composition over class inheritance.
+  - cons: code may lock less concrete, more abstractly specified, may be confusing for those who come from OOP
+```
 
-  */
-}
+```text
+Q: What is functional programming?
 
-{ // Two main programming paradigms in JavaScript, its difference
-/*
-  - OOP (SOLID, classes, prototypal inheritance)
-    OOP pros: easy to understand, use imperative over declarative style, reads more straight-forward
-    OOP cons: depends on shared state, may lead to race condition
+A: It is a paradigm to provide programs by composing functions and avoid shared state & mutable data. It is one of two essential concepts in JavaScript (OOP as another one).
 
-  - Functional programming (first class funtions, closures, )
-    FP pros: no shared state or side-effects leads to no bugs related to race conditions, easy to recompose functions
-    for more reusable code. Things don't compete for shared resources. Object composition over class inheritance.
-    FP cons: code may lock less concrete, more abstractly specified, may be comfusing for those who come from OOP
-*/
-}
+Features: pure functions, no side effects, function composition, first-class func, HOF, func as arguments/values, Immutability
 
-{ // What is functional programming?
-  /*
-    It is a paradigm to provide programs by composing functions and avoid shared atate & mutable data.
-    It is one of two essential concepts in JavaScript (OOP as another one).
-    Features: pure functions, no side effects, function composition, first-class func, HOF, func as arguments/values, Immutability
-    Other functional langs: Lisp, Haskell, Erlang, Closure, F Sharp.
-  */
-}
+Other functional langs: Lisp, Haskell, Erlang, Closure, F Sharp.
+```
 
-{ // Classical vs prototypal inheritance?
-  /*
-    Class Inheritance: instances inherit from classes, and create tight coupling, hierarchical relationships.
+```text
+Q: Classical vs prototypal inheritance?
+
+A: Class Inheritance: instances inherit from classes, and create tight coupling, hierarchical relationships.
     Instances are typically instantiated via constructor functions with the `new` keyword.
     Class inheritance may or may not use the `class` keyword from ES6.
 
     Prototypal Inheritance: instances inherit directly from other objects. Instances are typically instantiated via
     factory functions or `Object.create()`. Instances may be composed from many different objects, allowing for easy
     selective inheritance. Concatenative inheritance, prototype delegation, functional inheritance, object composition. Delegation (prototype chain), Concatenative (mixins, Object.assign()), Functional (create closure for private state/encapsulation)
-  */
-}
+```
 
-{ // Describe what means 'object composition over class inheritance'
-  /*
-    https://www.youtube.com/watch?v=wfMtDGfHWpA&feature=emb_title
+```text
+Q: Object composition over Class inheritance'
 
-    It means that code reuse should be achieved by assembling smaller units of functionality into new objects instead
-    of inheriting from classes and creating object taxonomies. In other words, use can-do, has-a, or uses-a
-    relationships instead of is-a relationships.
+A:
+  <https://www.youtube.com/watch?v=wfMtDGfHWpA&feature=emb_title>
 
-    Avoid class hierarchies, avoid brittle base class problem (changes in a base class may lead to problem in child
-    classes), avoid tight coupling, avoid forced is-a relationship, avoid gorilla-banana problem (get entire jungle 
-    but not simple banana), makes code more flexible
-  */
-}
+  It means that code reuse should be achieved by assembling smaller units of functionality into new objects instead
+  of inheriting from classes and creating object taxonomies. In other words, use can-do, has-a, or uses-a
+  relationships instead of is-a relationships.
 
-{ // ES6+ features https://github.com/lukehoban/es6features
-  /*
+  Avoid class hierarchies, avoid brittle base class problem (changes in a base class may lead to problem in child
+  classes), avoid tight coupling, avoid forced is-a relationship, avoid gorilla-banana problem (get entire jungle 
+  but not simple banana), makes code more flexible
+```
+
+```text
+Q: ES6(2015)+ features <https://github.com/lukehoban/es6features>
+
+A:
     ES6 (2015):
 
     () =>
@@ -165,23 +157,23 @@
     Object.fromEntries: reverse operation from Object.entries
     String.trimStart() & String.trimEnd(): Remove extra spaces in a string
     Optional Catch binding: remove the need to add a param to the catch (Now you can do } catch {instead of } catch(e) {
-    Function.toString has been revisited to have a consistent behaviour
+    Function.toString has been revisited to have a consistent behavior
     Symbol Description
     BigInt — arbitrary large numbers (Thanks @redeyes2015 for correction)
     Improvement on Unicode support for JSON.stringify()
     Array.sort now retains order if keys are equal
     Make JavaScript a superset of JSON
-  */
-}
+```
 
-{ // 'use strict'
-  /*
-    Used to enforce stricter parsing and error handling of a js code at a runtime.
-    Errors that would normally be ignored would generate errors, or throw exceptions 
-  */
-}
+```text
+Q: 'use strict'
 
-{ // Data Types
+A: Used to enforce stricter parsing and error handling of a js code at a runtime. Errors that would normally be ignored would generate errors, or throw exceptions
+```
+
+```text
+Q: Data Types
+
   // Primitives, value type
   undefined: typeof instance === 'undefined';
   Boolean: typeof instance === 'boolean';
@@ -203,8 +195,11 @@
     new Date();
   Function: typeof instance === 'function'; // derived from Object
 }
+```
 
-{ // Comparison, Castings, find Data Type
+```text
+Q: Comparison, Castings, find Data Type
+
   // == vs ===
   // cast string to number (if wrong input, might return NaN)
   '10' * 1 + // the fastest
@@ -249,100 +244,119 @@
   (1 == 1) == 1; // true
   (1 === 1) === 1; // false
   0.1 + 0.2 == 0.3; // false (could be true, floating value issue)
+```
+
+```text
+Q: Monolithic vs Microservice architecture?
+
+  Monolithic:
+  App written as one unit of code, whose components designed to work together, sharing same memory and resources.
+  Pros: cover large number of cross-cutting concerns, shared memory process are faster then inter-process communication (IPC)
+  Cons: tightly coupled, difficult to isolate services (scalability, maintainability problem), harder to understand due to deps, side-effects
+
+  Microservice:
+  App consists of several smaller independent apps that run in their own memory and space and scale independently from
+  each other across potentially many separate machines
+  Pros: better organized, separation of concern, easy to recompose, reconfigure, scale only what you need. Perform
+  and scale better in long run.
+  Cons: shared middleware, more devOps job needed, higher initial cost
 }
+```
 
-{ //Monolithic vs Microservice architecture?
-  /*
-    Monolithic:
-    App written as one unit of code, whose components designed to work together, sharing same memory and resources.
-    Pros: cover large number of cross-cutting concerns, shared memory process are faster then inter-process communication (IPC)
-    Cons: tightly coupled, difficult to isolate services (scalability, maintainability problem), harder to understand due to deps, side-effects
+```js
+// WHAT OUTPUT & WHY ?
 
-    Microservice:
-    App consists of several smaller independent apps that run in thei own memory and space and scale independantly from
-    each other across potentially many separate machines
-    Pros: better organized, separation of concern, easy to recompose, reconfigure, scale only what you need. Perform
-    and scale better in long run.
-    Cons: shared middleware, more devOps job needed, higher initial cost
-  */
-}
-
-{ // WHAT OUTPUT & WHY ?
-
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 // NFE (Named Function Expression)
 var foo = function bar(){ return 12; };
 typeof bar(); // ReferenceError: bar is not defined,
 // to fix - check type of assigned variable instead, or use function declaration and check func type
+```
 
+```js
+// WHAT OUTPUT & WHY ?
 
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 var z = 1, y = z = typeof y; // here associativity of the assignment is Right to Left
 console.log(y); // undefined
+```
 
+```js
+// WHAT OUTPUT & WHY ?
 
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 var trees = ["redwood","bay","cedar","oak"];
 delete trees[2];
 console.log(trees.length);  // 4
 console.log(trees);         // ["redwood","bay", empty ,"oak"]
 console.log(trees[2]);      // undefined
+```
 
+```js
+// WHAT OUTPUT & WHY ?
 
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 var output = (function(x){
   delete x; // delete won't work here because it deletes only obj props, but not variables (neither local nor global)
   return x;
 })(0); // 0
+```
 
+```js
+// WHAT OUTPUT & WHY ?
 
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 var x = { foo : 1};
 var output = (function(){
   delete x.foo;
   return x.foo;
 })();
 console.log(output); // undefined
+```
 
+```js
+// WHAT OUTPUT & WHY ?
 
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 console.log(
   (function f(n) {
     return n > 1 ? n * f(n - 1) : n;
   })(10)
 ); // 10!
+```
 
+```js
+// WHAT OUTPUT & WHY ?
 
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 var foo = new Object();
 var bar = new Object();
 var map = new Object();
 map[foo] = 'foo'; // map = {[object Object]: 'foo'}
 map[bar] = 'bar'; // map = {[object Object]: 'bar'}
 console.log(map[foo]); // bar
+```
 
+```js
+// WHAT OUTPUT & WHY ?
 
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 var a = {},
   b = { key: 'b' },
   c = { key: 'c' };
 a[b] = 123; // a = {[object Object]: 123}
 a[c] = 456; // a = {[object Object]: 456}
 console.log(a[b]); // {[object Object]: 456}
+```
 
+```js
+// WHAT OUTPUT & WHY ?
 
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?
 var arr1 = 'john'.split('');
 var arr2 = arr1.reverse();
 var arr3 = 'jones'.split('');
 arr2.push(arr3);
 console.log('array 1: length=' + arr1.length + ' last=' + arr1.slice(-1)); // "array 1: length=5 last=j,o,n,e,s"
 console.log('array 2: length=' + arr2.length + ' last=' + arr2.slice(-1)); // "array 2: length=5 last=j,o,n,e,s"
+```
 
-
-
-/////////////////////////////////////////////////     WHAT OUTPUT & WHY ?  RECURSION
+```js
+// WHAT OUTPUT & WHY ?
+// RECURSION
 // how to fix?
+
 let counter = 0;
 (function doJob() {
   if (counter > 3) return 'done!';
@@ -350,17 +364,18 @@ let counter = 0;
   doJob(); // fix: return doJob()
 }())
 // undefined, because only last function in a stack returned value, rest just finished
-// bubble up returned value, return recurcive call but not just call
+// bubble up returned value, return recursive call but not just call
+```
 
-}
+## Common tasks
 
-
-{ // COMMON TASKS
-
+```js
 { // reverse string
   '0123456789'.split('').reverse().join('');
 }
+```
 
+```js
 { // check if input string is palindrome
   function isPalindrome(str) {
     var strAlphaNumeric = str.replace(/\W/g, '').toLowerCase();
@@ -370,14 +385,18 @@ let counter = 0;
   console.log(isPalindrome('levels')); // logs 'false'
   console.log(isPalindrome('A car, a man, a maraca')); // logs 'true'
 }
+```
 
+```js
 { // how to empty an array?
   array = [];
   array.length = 0;
   while(array.length > 0) { array.pop(); }
   array.splice(0, array.length)
 }
+```
 
+```js
 { // how to remove duplicates from array?
 
   // solution #1 (Fast #1)
@@ -411,11 +430,15 @@ let counter = 0;
     return unique;
   }
 }
+```
 
+```js
 { // find SUM of all array elements
   [1, 2, 3, 4, 5, 6, 7, 8, 9].reduce((acc, current) => acc + current, 0);
 }
+```
 
+```js
 { // create func that will give such result (relates to Partial Applied function)
   var addSix = createBase(6);
   addSix(10); // returns 16 // closure
@@ -430,10 +453,12 @@ let counter = 0;
     };
   }
 
-  // solution #2 (usine arrow f)
+  // solution #2 (using arrow fn)
   const createBase = base => n => base + n; // second function is a closure.
 }
+```
 
+```js
 { // create func that will give such result
   add(2, 5); // 7
   add(2)(5); // 7 // closure
@@ -441,11 +466,13 @@ let counter = 0;
   // solution
   const add = (a, b) => (b ? a + b : b => a + b);
 }
+```
 
+```js
 { // how to copy/clone object || arr
   // Shallow copy
 
-  (/* Object.assign - shallow copy */) => {
+  (/*Object.assign - shallow copy*/) => {
     let a = { x: { z: 1 }, y: 2 };
     let b = Object.assign({}, a);
     b.x.z = 0;
@@ -453,7 +480,7 @@ let counter = 0;
     console.log(JSON.stringify(b)); // {"x":{"z":0},"y":2}
   };
 
-  (/* ... - shallow copy */) => {
+  (/*... - shallow copy*/) => {
     let a = { x: { z: 1 }, y: 2 };
     let b = { ...a };
     b.x.z = 0;
@@ -461,7 +488,7 @@ let counter = 0;
     console.log(JSON.stringify(b)); // {"x":{"z":0},"y":2}
   };
 
-  (/* Array.from(arr) */) => {
+  (/*Array.from(arr)*/) => {
     let a = [{ x: 1, y: 2, z: 3 }];
     let b = Array.from(a);
     b[0].x = 0;
@@ -471,7 +498,7 @@ let counter = 0;
 
   // Deep copy
 
-  (/* Solution 3: converting to JSON and back (be careful, source should be JSON safe) */) => {
+  (/*Solution 3: converting to JSON and back (be careful, source should be JSON safe)*/) => {
     let a = [{ x: { z: 1 }, y: 2 }];
     let b = JSON.parse(JSON.stringify(a));
     b[0].x.z = 0;
@@ -479,7 +506,7 @@ let counter = 0;
     console.log(JSON.stringify(b)); // [{"x":{"z":0},"y":2}] - only copy changed
   };
 
-  (/* Solution 4: deep copy using iteration */) => {
+  (/*Solution 4: deep copy using iteration*/) => {
     function iterationCopy(src) {
       let target = {};
       for (let prop in src) {
@@ -508,9 +535,10 @@ let counter = 0;
   // deep copy array
   var newArr = JSON.parse(JSON.stringify(arr));
 };
+```
 
+```js
 { // pull data from public API and show it on FE
   // TODO
 };
-
-}
+```
