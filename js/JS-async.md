@@ -1,5 +1,7 @@
 # Async in JavaScript
 
+TODO: review and update general docs
+
 JavaScript is single-threaded, non-blocking, synchronous language. It uses browser's event loop to handle async operations.
 
 <https://blog.sessionstack.com/how-does-javascript-actually-work-part-1-b0bacc073cf>

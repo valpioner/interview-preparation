@@ -12,3 +12,11 @@
   - lazy load with `loading="lazy"` or prioritize loading with `fetchpriority="high"`
   - use js framework tools for image optimization
   - use CDN if that makes sense
+  - sprites/maps
+
+- Minimize HTTP Requests
+  - caching
+
+- Optimize css imports
+
+- use `link` tag instead of `@import`
