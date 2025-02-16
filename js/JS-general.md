@@ -3,6 +3,11 @@
 
 TODO: review and update general docs
 
+## Books
+
+- [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS) (free)
+- [Eloquent JavaScript](https://eloquentjavascript.net/) (free)
+
 ## Interview questions links
 
 - [awesome-interview-questions](https://github.com/MaximAbramchuck/awesome-interview-questions)
@@ -36,6 +41,10 @@ TODO: review and update general docs
     - web api (timers, XHR, DOM etc.)
     - event loop, callback queue
     - promise, micro-tasks
+  - functional programming
+    - Higher order functions
+    - Currying
+    - First Order functions
 
 - function, class
   - class vs function
